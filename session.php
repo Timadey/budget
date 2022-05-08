@@ -12,9 +12,9 @@ session_start();
         };
     }else{
         if (!isset($_COOKIE['user_id']) && !isset($_COOKIE['email']) && !isset($_COOKIE['name'])){
-            setcookie('user_id', $_SESSION['user_id'], time()*(60 * 60 * 24 * 2));
-            setcookie('email', $_SESSION['email'], time()*(60 * 60 * 24 * 2));
-            setcookie('name', $_SESSION['name'], time()*(60 * 60 * 24 * 2));
+            setcookie('user_id', $_SESSION['user_id'], time()+(60 * 60 * 24 * 2));
+            setcookie('email', $_SESSION['email'], time()+(60 * 60 * 24 * 2));
+            setcookie('name', $_SESSION['name'], time()+(60 * 60 * 24 * 2));
         };
     };
 ?>

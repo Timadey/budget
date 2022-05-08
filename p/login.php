@@ -1,4 +1,5 @@
 <?php require_once "../config.php";
+
 if (isset($_POST["login"])){
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
@@ -22,10 +23,9 @@ if (isset($_POST["login"])){
        $_SESSION['name'] = $data['first_name'].' '.$data['last_name'];
 
        header("Location: ../index.php");
-       //set_cookies()
-        echo "<p>";
-        var_dump($data);
-        echo "</p>";
+        // echo "<p>";
+        // var_dump($_SESSION);
+        // echo "</p>";
 
     };
 }

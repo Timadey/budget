@@ -1,22 +1,42 @@
 <?php
-session_start();
 $page_title = "Home";
+include_once "config.php";
+//include_once "session.php";
 include_once "template/header.php";
+
+
+try{
+    $query = "SELECT * FROM `books` WHERE `user_id`=:user_id ORDER BY `date` DESC";
+    $statement = $dbs->prepare($query);
+    $statement->bindValue(':user_id', $uid);
+    $statement->execute();
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    
+}catch(PDOException $err){
+    echo "Failed to load books: ".$err->getMessage();
+};
+
+
+if ($data){
+    //load all books
+}else{?>
+    <div class="card text-center">
+        <div class="card-header">
+            Budget
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Income and Expenditure</h5>
+            <p class="card-text">Record and keep tracks of your expensese. <br> Open <em>a new book</em> to start using <b>Budget</b></p>
+            <a href="newbook.php" class="btn btn-primary">Open a New Book</a>
+        </div>
+        <div class="card-footer text-muted">
+            © 2022
+        </div>
+    </div>
+        
+<?php }
 ?>
 
-    <div class="card text-center">
-    <div class="card-header">
-        Featured
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Income and Expenditure</h5>
-        <p class="card-text">Record and keep tracks of your expenses. Login to open a new book.</p>
-        <a href="authenticate/login.php" class="btn btn-primary">Log in</a>
-    </div>
-    <div class="card-footer text-muted">
-        © 2020
-    </div>
-    </div>
     
 <?php
 // echo "<p>";

@@ -1,6 +1,17 @@
 <?php
 $page_title = "Register";
-include_once "login-header.php";?>
+include_once "login-header.php";
+if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION['name'])){
+	include_once "logged_in_as.php";
+	exit();
+}else if (isset($_COOKIE['user_id']) && isset($_COOKIE['email']) && isset($_COOKIE['name'])){
+	$_SESSION['user_id'] = $_COOKIE['user_id'];
+	$_SESSION['email'] = $_COOKIE['email'];
+	$_SESSION['name'] = $_COOKIE['name'];
+	include_once "logged_in_as.php";
+	exit();
+};
+?>
 
 <body class="my-login-page">
 	<section class="h-100">
