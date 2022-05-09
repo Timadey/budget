@@ -1,8 +1,8 @@
 <?php
 require_once "../config.php";
-echo "<p>";
-var_dump($_POST);
-echo "</p>";
+// echo "<p>";
+// var_dump($_POST);
+// echo "</p>";
 
 if (isset($_POST['add-book'])){
     $book_name = trim($_POST['book-name']);
@@ -10,11 +10,7 @@ if (isset($_POST['add-book'])){
     $book_type = trim($_POST['book-type']);
 
     if ($book_name == "" || $book_desc == "" || $book_type == ""){
-        echo
-        "<script> 
-          alert('Entries can't be empty!');
-          window.location.href = '../newbook.php';
-        </script>"; 
+        header("Location: ../newbook.php");
     }else{
         try{
             $query = "INSERT INTO `books` (`user_id`, `book_name`, `category_id`, `description`) 
@@ -30,7 +26,7 @@ if (isset($_POST['add-book'])){
             echo 
             "<script> 
             alert('Book added successfully');
-            window.location.href = '../newbook.php';
+            window.location.href = '../index.php';
             </script>"; 
         }catch(PDOException $err){
             echo "Error. Cannot add book: ".$err->getMessage();
