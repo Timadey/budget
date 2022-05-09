@@ -6,7 +6,7 @@ include_once "template/header.php";
 
 
 try{
-    $query = "SELECT * FROM `books` WHERE `user_id`=:user_id ORDER BY `date` DESC";
+    $query = "SELECT * FROM `books` INNER JOIN `category` USING (`category_id`) WHERE `user_id`=:user_id ORDER BY `date` DESC";
     $statement = $dbs->prepare($query);
     $statement->bindValue(':user_id', $uid);
     $statement->execute();
@@ -19,7 +19,43 @@ try{
 
 if ($data){
     //load all books
-}else{?>
+    echo "<p>";
+var_dump($data);
+echo "</p>"; ?>
+    <div class="card text-center">
+        <div class="card-header">
+            Budget
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Income and Expenditure</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">S/N</th>
+                        <th scope="col">Book Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Date Added</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data as $key => $value) {?>
+                    <tr>
+                        <th scope="row"><?php echo $key ?></th>
+                        <td><?php echo $value['book_name'];?></td>
+                        <td><?php echo $value['category_name'];?></td>
+                        <td><?php echo $value['date'];?></td>
+                    </tr>
+
+                <?php };?>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-muted">
+            © 2022
+        </div>
+    </div>
+<?php }else{?>
     <div class="card text-center">
         <div class="card-header">
             Budget

@@ -23,10 +23,10 @@
                     <img src="assets/img/bootstrap/bootstrap.svg" alt="Bootstrap" width="32" height="32"><b>udget</b></a>
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="" class="nav-link px-2 text-dark">Home</a></li>
-                    <li><a href="" class="nav-link px-2 text-dark">Books</a></li>
-                    <li><a href="" class="nav-link px-2 text-dark">Transactions</a></li>
-                    <li><a href="" class="nav-link px-2 text-dark">About</a></li>
+                    <li><a href="index.php" class="nav-link px-2 text-dark">Home</a></li>
+                    <li><a href="newbook.php" class="nav-link px-2 text-dark">Add New Book</a></li>
+                    <li><a href="#" class="nav-link px-2 text-dark">Transactions</a></li>
+                    <li><a href="#" class="nav-link px-2 text-dark">About</a></li>
                 </ul>
 
                 <?php echo !isset($_SESSION['user_id']) ? "<div class='text-end'>
