@@ -37,7 +37,7 @@ if (isset($_GET['book'])){
         echo 
             "<script> 
             alert('Book deleted successfully. Total of ".$count." book deleted!');
-            window.location.href = 'book.php?book=".$book_id."';
+            window.location.href = 'index.php';
             </script>"; 
     }
     catch(PDOException $err){

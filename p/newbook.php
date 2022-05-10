@@ -26,7 +26,7 @@ if (isset($_POST['add-book'])){
             
             echo 
             "<script> 
-            alert('Book added successfully');
+            alert('Book added successfully. Log a transaction in it.');
             window.location.href = '../index.php';
             </script>"; 
         }

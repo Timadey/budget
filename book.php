@@ -81,23 +81,34 @@ if (isset($_GET['book'])){
                             <tr>
                                 <th scope="col">S/N</th>
                                 <th scope="col">Amount</th>
-                                <th scope="col">Type</th>
+                                <!-- <th scope="col">Type</th> -->
                                 <th scope="col">Category</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Date</th>
+                                <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data as $key => $transaction) {?>
                                 <tr>
                                 <th scope="row"><?php echo $key+1 ?></th>
-                                <td><?php echo "NGN ".$transaction['amount'];?></td>
-                                <?php echo $transaction['type'] == 0 ?"<td style='color:red'>Debit</td>":"<td style='color:green'>Credit</td>";?>
+                                <td <?php echo $transaction['category_id'] == 2 ? "style='color:red'":" style='color:green'";?>><?php echo "NGN ".$transaction['amount'];?></td>
+                                <?php //echo $transaction['type'] == 0 ?"<td style='color:red'>Debit</td>":"<td style='color:green'>Credit</td>";?>
                                 <td><?php echo $transaction['name'];?></td>
                                 <td><?php echo $transaction['description'];?></td>
                                 <td><?php echo $transaction['date'];?></td>
-                            </tr>
+                            
+                            <td><span class="btn-group">
+                                <form action="transaction.php" method="post">
+                                     <button style="border:1px" class="btn btn-outline-primary" type="submit" name="edit-transaction" value="edit">Edit</button>
+                                </form>
+                                <form action="delete.php" method="post">
+                                     <button onclick="return confirm('You\'re trying to delete a transaction you can\'t recover once deleted, continue?')" 
+                                     style="border:1px" class="btn btn-outline-danger" type="submit" name="delete-transaction" value="delete">Delete</button>
+                                </form></span>
+                            </td>
                             <?php };?>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

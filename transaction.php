@@ -54,14 +54,14 @@ $sub_categories = $statement->fetchAll(PDO::FETCH_ASSOC);
                     <input id="amount" type="number" class="form-control" name="amount" value= "" required autofocus>
                 </div><br>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="type">Type</label>
                     <select class="form-control" id="type" name="type" required>
                         <option value="">Choose...</option>
                         <option value=0 >Debit</option>
                         <option value=1 >Credit</option>
                     </select>
-                </div><br>
+                </div><br> -->
 
                 <div class="form-group">
                     <label for="sub-category">Categories</label>
