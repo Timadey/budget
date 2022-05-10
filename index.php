@@ -19,9 +19,9 @@ try{
 
 if ($data){
     //load all books
-    echo "<p>";
-    var_dump($data);
-    echo "</p>"; ?>
+    // echo "<p>";
+    // var_dump($data);
+    // echo "</p>"; ?>
     <div class="card text-center">
         <div class="card-header">
             Budget

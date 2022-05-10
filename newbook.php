@@ -38,7 +38,7 @@ if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['categor
 
                 <div class="form-group">
                     <label for="book-type">Book Type</label>
-                    <select class="form-control" id="book-type" name="book-type" >
+                    <select class="form-control" id="book-type" name="book-type" <?php echo $edit ? 'disabled':'';?> required>
                         <option value="">Choose...</option>
                         <option value=1 <?php echo $book_type == 1 ? 'selected':'';?>>Income</option>
                         <option value=2 <?php echo $book_type == 2 ? 'selected':'';?>>Expenditure</option>
@@ -46,11 +46,11 @@ if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['categor
                 </div><br>
                 <div class="form-group">
                     <label for="book-desc">Description</label>
-                    <textarea class="form-control" id="book-desc" name="book-desc" rows="3"><?php echo $edit ? $book_desc:'';?></textarea>
+                    <textarea class="form-control" id="book-desc" name="book-desc" rows="3" required><?php echo $edit ? $book_desc:'';?></textarea>
                 </div><br>
                 <div class="form-group m-0">
                     <button type="submit" id="<?php echo $edit ? 'btn-edit-book':'btn-add-book';?>" name="<?php echo $edit ? 'edit-book':'add-book';?>" class="btn btn-primary btn-block">
-                        Add Book
+                    <?php echo $edit ? 'Edit Book':'Add Book';?>
                     </button>
                 </div>
             </form>

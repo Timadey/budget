@@ -23,16 +23,24 @@ if (isset($_GET['book'])){
     };
 
     try{
-        $query = "SELECT * FROM `books` INNER JOIN `transactions` USING (`book_id`) 
-        WHERE books.book_id=:book_id AND books.user_id=:user_id ORDER BY transactions.date DESC";
+        $query = "SELECT * FROM `books`
+         INNER JOIN `transactions` USING (`book_id`)
+         INNER JOIN `sub_category` USING (`sub_category_id`)
+         WHERE books.book_id=:book_id AND books.user_id=:user_id AND sub_category.category_id=:book_type ORDER BY transactions.date DESC";
+
+        // $query = "SELECT * FROM transactions
+        //  INNER JOIN books USING (book_id)
+        //  WHERE book_id=:book_id AND transactions.user_id=:user_id ORDER BY transactions.date DESC";
+
         $statement = $dbs->prepare($query);
         $statement->bindValue(':book_id', $book_id);
+        $statement->bindValue(':book_type', $rdata['category_id']);
         $statement->bindValue(':user_id', $uid);
         $statement->execute();
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        echo "<p>";
-        var_dump($data);
-        echo "</p>";
+        // echo "<p>";
+        // var_dump($data);
+        // echo "</p>";
 
         if (!$data){?>
            <div class="card text-center">
@@ -42,7 +50,7 @@ if (isset($_GET['book'])){
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $rdata['book_name'];?></h5> 
                     <p class="card-text">No transaction found in this book. <br> Log a new transaction in this book to view it.</p>
-                    <a href="addtransaction.php" class="btn btn-primary">Log a transaction</a>
+                    <a href="transaction.php?book=<?php echo $rdata['book_id'].'&type='.$rdata['category_id'];?>" class="btn btn-primary">Log a transaction</a>
                 </div>
                 <div class="card-footer text-muted">
                     © 2022
@@ -56,13 +64,17 @@ if (isset($_GET['book'])){
                 </div>
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $rdata['book_name'];?></h5>
+                    <p><?php echo $rdata['category_id'] == 1 ? "Income" : "Expenditure" ;?></p>
+                    <p><?php echo $rdata['description'];?></p>
                     <?php
                          $rbook = http_build_query($rdata);
                     ?>
                     <p>
                         <a href="newbook.php?<?php echo $rbook;?>"><button class="btn btn-outline-primary">Edit Book</button></a>
-                        <a href="addtransaction.php?book=<?php echo $rdata['book_id'];?>"><button class="btn btn-outline-success">Log Transaction</button></a>
-                        <a href="delete.php?book=<?php echo $rdata['book_id'];?>"><button class="btn btn-outline-danger">Delete</button></a>
+                        <a href="transaction.php?book=<?php echo $rdata['book_id'].'&type='.$rdata['category_id'];?>"><button class="btn btn-outline-success">Log Transaction</button></a>
+                        <a href="delete.php?book=<?php echo $rdata['book_id'];?>">
+                        <button onclick="return confirm('You\'re trying to delete an entire book. All data and recorded transaction will be deleted, continue?')" 
+                        class="btn btn-outline-danger">Delete</button></a>
                     </p>
                     <table class="table table-hover">
                         <thead>
@@ -70,6 +82,7 @@ if (isset($_GET['book'])){
                                 <th scope="col">S/N</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Type</th>
+                                <th scope="col">Category</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Date</th>
                             </tr>
@@ -80,6 +93,7 @@ if (isset($_GET['book'])){
                                 <th scope="row"><?php echo $key+1 ?></th>
                                 <td><?php echo "NGN ".$transaction['amount'];?></td>
                                 <?php echo $transaction['type'] == 0 ?"<td style='color:red'>Debit</td>":"<td style='color:green'>Credit</td>";?>
+                                <td><?php echo $transaction['name'];?></td>
                                 <td><?php echo $transaction['description'];?></td>
                                 <td><?php echo $transaction['date'];?></td>
                             </tr>
