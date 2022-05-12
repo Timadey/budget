@@ -46,4 +46,26 @@ if (isset($_GET['book'])){
     
 
 }
+elseif (isset($_POST['delete-transaction'])){
+    $transaction_id = trim($_POST['delete-transaction']);
+    $query = "DELETE FROM `transactions` WHERE `transaction_id`=:transaction_id";
+    $statement = $dbs->prepare($query);
+    $statement->bindValue(':transaction_id', $transaction_id);
+    $statement->execute();
+
+    echo 
+        "<script> 
+        alert('Transaction deleted successfully!');
+        history.back();
+        </script>"; 
+}
+else{
+    "<script> 
+        history.back();
+        </script>";
+};
+
+// echo "<p>";
+// var_dump($_POST);
+// echo "</p>";
 ?>
