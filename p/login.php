@@ -22,11 +22,13 @@ if (isset($_POST["login"])){
        $_SESSION['email'] = $data['email'];
        $_SESSION['name'] = $data['first_name'].' '.$data['last_name'];
 
-       header("Location: ../index.php");
+       
         // echo "<p>";
         // var_dump($_SESSION);
         // echo "</p>";
 
+    }else{
+        header("Location: ../authenticate/login.php");
     };
 }
 else{
