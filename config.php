@@ -1,13 +1,18 @@
 <?php 
-require_once "modules/database.php";
+require_once "modules/functions.php";
+require_once "modules/database-class.php";
+require_once "modules/account-class.php";
 
 //connect to database
 $DB_HOST = 'localhost';
 $DB_USER = 'root';
 $DB_PASSWORD = '';
 $DB_NAME ='budget';
-global $dbs;
-$dbs = dbconnect($DB_HOST,$DB_USER, $DB_PASSWORD, $DB_NAME);
+
+$dbs = new Database($DB_HOST,$DB_USER, $DB_PASSWORD, $DB_NAME);
+$dbs->dbConnect();
+$user = new Account ($dbs);
+//$dbs = dbconnect($DB_HOST,$DB_USER, $DB_PASSWORD, $DB_NAME);
 
 //dont touch
 session_start();
@@ -18,7 +23,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['email']) && !isset($_SESSI
         $_SESSION['name'] = $_COOKIE['name'];
         include_once "authenticate/logged_in_as.php";  
     }else{
-        header("Location: authenticate/login.php");
+        //header("Location: authenticate/login.php");
     };
 }else{
     if (!isset($_COOKIE['user_id']) && !isset($_COOKIE['email']) && !isset($_COOKIE['name'])){
@@ -28,7 +33,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['email']) && !isset($_SESSI
     };
 };
 
-$uid = $_SESSION['user_id'];
-$email = $_SESSION['email'];
-$name = $_SESSION['name'];
+// $uid = $_SESSION['user_id'];
+// $email = $_SESSION['email'];
+// $name = $_SESSION['name'];
 ?>
