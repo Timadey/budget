@@ -1,44 +1,31 @@
 <?php require_once "../config.php";
+session_start();
 
 if (isset($_POST["login"])){
     var_dump($_POST);
     $email = clean($_POST['email']);
     $password = ($_POST['password']);
     $data = $user->login($email, $password);
-
-    if ($data)
+    unset($_POST);
+    if ($data == true)
     {
-        echo "success!";
-    }else{
-        echo "login failed";
+        $_SESSION['user_id'] = $user->getUid();
+        $_SESSION['email'] = $user->getEmail();
+        $_SESSION['name'] = $user->getUname();
+        $_SESSION['login'] = $user->getLogin();
+        var_dump($_SESSION);
+        echo "<script>alert('success!');</script>";
+        header("Location: ../index.php");
     }
-
-    // $query = "SELECT * FROM `users` WHERE `email`=:email";
-    // $statment = $dbs->prepare($query);
-    // $statment->bindValue(':email', $email);
-    // $statment->execute();
-    // $data = $statment->fetchAll(PDO::FETCH_ASSOC);
-
-    // if ($data){
-    //     $query = "SELECT * FROM `users` WHERE `email`=:email AND `password`=SHA(:password)";
-    //     $statment = $dbs->prepare($query);
-    //     $statment->bindValue(':email', $email);
-    //     $statment->bindValue(':password', $password);
-    //     $statment->execute();
-    //     $data = $statment->fetchAll(PDO::FETCH_ASSOC);
-        
-    //    $_SESSION['user_id'] = $data['user_id'];
-    //    $_SESSION['email'] = $data['email'];
-    //    $_SESSION['name'] = $data['first_name'].' '.$data['last_name'];
-
-       
-    //     // echo "<p>";
-    //     // var_dump($_SESSION);
-    //     // echo "</p>";
-
-    // }else{
-    //     header("Location: ../authenticate/login.php");
-    // };
+    elseif ($data == 1)
+    {
+        echo "<script>alert('User already exist');</script>";
+    }
+    else{
+        echo "<script>alert('Login Failed');</script>";
+        echo password_hash("admin", PASSWORD_DEFAULT);
+        //header("Location: ../authenticate/login.php");
+    }
 }
 else{
    //header("Location: ../authenticate/login.php");

@@ -1,5 +1,5 @@
 <?php
- require_once "../config.php";
+ //require_once "../config.php";
 
 /**
  * Account - a class that handles everything related to the user
@@ -34,6 +34,11 @@ class Account
   {
     return $this->email;
   }
+  /**get login status */
+  public function getLogin()
+  {
+    return $this->login;
+  }
   /**
    * addAccount - adds a new user to the database if it doesn't exist
    * @first_name: first name of the user
@@ -60,13 +65,14 @@ class Account
       if ($exist) { throw new Exception("User already exists"); }
       
       /** user doesn't exist, insert into users table */
-      $hash = password_hash($password, PASSWORD_DEFAULT);
-      $values = array(
-        ':first_name' => $first_name,
-        ':last_name' => $last_name,
-        ':email' => $email,
-        ':password' => $hash
-      );
+      //insert method is yet to be implemented in database classiii9ki9
+      //$hash = password_hash($password, PASSWORD_DEFAULT);
+      // $values = array(
+      //   ':first_name' => $first_name,
+      //   ':last_name' => $last_name,
+      //   ':email' => $email,
+      //   ':password' => $hash
+      // );
       // $register = dbInsertInto('users', $values);
       // return ($register);
       return 0;
@@ -80,35 +86,37 @@ class Account
    * login - authenticates user login
    * @email: email of user
    * @password password of user
-   * Return: 1 on success, 0 if a user is logged in already, -1 on failure
+   * Return: true on success, 1 if a user is logged in already, false on failure
    */
-  public function login($email, $password) : int
+  public function login($email, $password) 
   {
     try{
-      if ($this->uid != NULL and $this->login != false) { return 0; }
+      if ($this->uid != NULL && $this->login != false) { return (1); }
       if (!$this->isEmailValid($email)) { throw new Exception("Invalid Email"); }
 
       $where = array('`email`' => ':email');
       $value = array(':email' => $email);
       $user = $this->db->dbGetData(null, '`users`', null, $where, $value);
+      echo ' <br>sp <br>';
       var_dump($user);
       if (is_array($user)){
         if (password_verify($password, $user['password'])){
           $this->uid = $user['user_id'];
-          $this->name = $user['first_name'].' '.$user['last_name'];
+          $this->uname = $user['first_name'].' '.$user['last_name'];
           $this->email = $user['email'];
           $this->login = true;
-          // $values = array(
-          //   ':user_id' => $this->uid,
-          //   ':session_id' => session_id()
-          // );
-          // $login = dbInsertInto('sessions', $values);
-          echo "login succesful";
-          return (1);
-        }else {echo "wrong password. login not succesful"; }
-      } return -1;
+
+          echo "<script>alert('login successful');</script>";
+          return (true);
+        }else {echo "<script>alert('Wrong password. login not successful');</script>"; }
+      }
+      else{
+        return (false);
+      }
+      
     }
     catch(Exception $err){
+      //catch exception
     }
   }
   /**

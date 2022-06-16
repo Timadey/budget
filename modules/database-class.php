@@ -45,7 +45,7 @@ class Database
      * @value: an associative array containing the placeholder and value
      * Return: an associative array containing the fields gotten or NULL if not found
      */
-    public function dbGetData(array $column = NULL, string $from, array $join = NULL, array $where, array $value) : array
+    public function dbGetData(array $column = NULL, string $from, array $join = NULL, array $where, array $value)
     {
         if ($this->conn == NULL){
             throw New Exception("Database connection not found");
@@ -72,12 +72,14 @@ class Database
         }
         $where = implode(' AND ', $where_list);
         $query .= $where;
-        echo $query;
+        echo $query.'<br>';
         try {
             $q = ($this->conn)->prepare($query);
             $q->execute($value);
             $data = $q->fetch(PDO::FETCH_ASSOC);
+            echo ' sp <br>';
             var_dump($data);
+            echo ' <br>sp <br>';
             if (is_array($data)){
                 return $data;
             }; return NULL;

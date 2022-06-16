@@ -1,14 +1,14 @@
 <?php
 $page_title = "Home";
+include_once "session.php";
 include_once "config.php";
-//include_once "session.php";
 include_once "template/header.php";
 
 
 try{
     $query = "SELECT * FROM `books` INNER JOIN `category` USING (`category_id`) WHERE `user_id`=:user_id ORDER BY `date` DESC";
-    $statement = $dbs->prepare($query);
-    $statement->bindValue(':user_id', $uid);
+    $statement = $dbs->conn->prepare($query);
+    $statement->bindValue(':user_id', $user->getUid());
     $statement->execute();
     $data = $statement->fetchAll(PDO::FETCH_ASSOC);
     
