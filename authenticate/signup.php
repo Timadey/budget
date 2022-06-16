@@ -1,6 +1,8 @@
 <?php
 $page_title = "Register";
 include_once "login-header.php";
+session_start();
+
 if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION['name'])){
 	include_once "logged_in_as.php";
 	exit();
@@ -25,6 +27,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION[
 					<div class="card fat">
 						<div class="card-body">
 							<h4 class="card-title">Register</h4>
+							<?php
+								echo isset($_SESSION['msg']) ? 
+								"<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
+								unset($_SESSION['msg']);
+							?>
 							<form method="POST" action="../p/signup.php" class="my-login-validation" novalidate="">
 								<div class="form-group">
 									<label for="name">First Name</label>

@@ -1,5 +1,7 @@
-<?php require_once "../config.php";
+<?php
 session_start();
+ require_once "../config.php";
+
 
 if (isset($_POST["login"])){
     var_dump($_POST);
@@ -17,18 +19,14 @@ if (isset($_POST["login"])){
         echo "<script>alert('success!');</script>";
         header("Location: ../index.php");
     }
-    elseif ($data == 1)
+    else
     {
-        echo "<script>alert('User already exist');</script>";
-    }
-    else{
         echo "<script>alert('Login Failed');</script>";
-        echo password_hash("admin", PASSWORD_DEFAULT);
-        //header("Location: ../authenticate/login.php");
+        header("Location: ../authenticate/login.php");
     }
 }
 else{
-   //header("Location: ../authenticate/login.php");
+   header("Location: ../authenticate/login.php");
 };
 
 ?>

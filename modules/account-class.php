@@ -1,6 +1,4 @@
 <?php
- //require_once "../config.php";
-
 /**
  * Account - a class that handles everything related to the user
  * Creates new account for users if they don't exist
@@ -47,35 +45,60 @@ class Account
    * @password: password of the user
    * Return: the id of the new account, -1 if failed to create user
    */
-  public function addAccount($first_name, $last_name, $email, $password): int
+  public function addAccount($first_name, $last_name, $email, $password)
   {
     $name = $first_name.' '.$last_name;
     try
     {
       /** check if input is valid */
-      if (!$this->isNameValid($name)) { throw new Exception("Invalid Name"); }
-      if (!$this->isEmailValid($email)) { throw new Exception("Invalid Email"); }
-      if (!$this->isPasswordValid($password)) { throw new Exception("Invalid Password"); }
+      if (!$this->isNameValid($name))
+      {
+        $_SESSION['msg'] = "Invalid Name";
+        return (false);
+      }
+      if (!$this->isEmailValid($email))
+      {
+        $_SESSION['msg'] = "Invalid Email";
+        return (false);
+      }
+      if (!$this->isPasswordValid($password))
+      {
+        $_SESSION['msg'] = "Password must be greater than 7 characters";
+        return (false);
+      }
 
       /** check if user exist */
       $col = array('`user_id`');
       $where = array('`email`' => ':email');
       $value = array(':email' => $email);
       $exist = $this->db->dbGetData($col, "`users`", null, $where, $value);
-      if ($exist) { throw new Exception("User already exists"); }
+      if (is_array($exist))
+      {
+        $_SESSION['msg'] = "Email already exist, please login";
+        return (false);
+      }
       
       /** user doesn't exist, insert into users table */
-      //insert method is yet to be implemented in database classiii9ki9
-      //$hash = password_hash($password, PASSWORD_DEFAULT);
-      // $values = array(
-      //   ':first_name' => $first_name,
-      //   ':last_name' => $last_name,
-      //   ':email' => $email,
-      //   ':password' => $hash
-      // );
-      // $register = dbInsertInto('users', $values);
-      // return ($register);
-      return 0;
+      $table = "`users`";
+      $columns = array ("`first_name`", "`last_name`", "`email`", "`password`");
+      $password = password_hash($password, PASSWORD_DEFAULT);
+      $values = array (
+        ':first_name' => $first_name,
+        ':last_name' => $last_name,
+        ':email' => $email,
+        ':password' => $password
+      );
+      $register = $this->db->insertData($table, $columns, $values);
+      if ($register > 0)
+      {
+        $_SESSION['msg'] = "Registration Successful. Please Login";
+        return($register); 
+      }
+      else
+      {
+        $_SESSION['msg'] = "Oops! Registration failed due to technical reasons";
+        return (false);
+      }
     }
     catch(Exception $err)
     {
@@ -92,7 +115,11 @@ class Account
   {
     try{
       if ($this->uid != NULL && $this->login != false) { return (1); }
-      if (!$this->isEmailValid($email)) { throw new Exception("Invalid Email"); }
+      if (!$this->isEmailValid($email)) 
+      {
+        $_SESSION['msg'] = "Invalid Email";
+        return (false);
+      }
 
       $where = array('`email`' => ':email');
       $value = array(':email' => $email);
@@ -106,11 +133,17 @@ class Account
           $this->email = $user['email'];
           $this->login = true;
 
-          echo "<script>alert('login successful');</script>";
+          echo "<script>alert('Login successful');</script>";
           return (true);
-        }else {echo "<script>alert('Wrong password. login not successful');</script>"; }
+        }else
+        {
+          $_SESSION['msg'] = "Incorrect Password";
+          return (false);
+        }
       }
-      else{
+      else
+      {
+        $_SESSION['msg'] = "User does not exist";
         return (false);
       }
       
@@ -129,9 +162,9 @@ class Account
     if (mb_strlen($name) < 30 && mb_strlen($name) > 4)
     {
       if (!preg_match("/^[a-zA-Z-']*$/", $name)){
-        return false;
-      }else{
         return true;
+      }else{
+        return false;
       }
     }; return false;
   }

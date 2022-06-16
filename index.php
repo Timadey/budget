@@ -6,22 +6,22 @@ include_once "template/header.php";
 
 
 try{
-    $query = "SELECT * FROM `books` INNER JOIN `category` USING (`category_id`) WHERE `user_id`=:user_id ORDER BY `date` DESC";
-    $statement = $dbs->conn->prepare($query);
-    $statement->bindValue(':user_id', $user->getUid());
-    $statement->execute();
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    echo "user id : ".$user->getUid();
+    echo "<pre>";
+    var_dump($_SESSION);
+    echo "</pre>";
+    $join = array('`category`' => '`category_id`');
+    $where = array ('`user_id`' => ':user_id');
+    $value = array (':user_id' => $_SESSION['user_id']);
+    $data = $dbs->dbGetData(null, "`books`", $join, $where, $value);
     
 }catch(PDOException $err){
     echo "Failed to load books: ".$err->getMessage();
 };
 
 
-if ($data){
-    //load all books
-    // echo "<p>";
-    // var_dump($data);
-    // echo "</p>"; ?>
+if (is_array($data)){
+    //load all books ?>
     <div class="card text-center">
         <div class="card-header">
             Budget

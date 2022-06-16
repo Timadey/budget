@@ -50,8 +50,6 @@ class Database
         if ($this->conn == NULL){
             throw New Exception("Database connection not found");
         }
-        //$from = implode(' INNER JOIN ', $from);
-        //$from .= " INNER JOIN `transactions` USING (`user_id`)";
         $query = "";
         if ($join != NULL){
             foreach ($join as $table => $using) {
@@ -76,7 +74,7 @@ class Database
         try {
             $q = ($this->conn)->prepare($query);
             $q->execute($value);
-            $data = $q->fetch(PDO::FETCH_ASSOC);
+            $data = $q->fetchall(PDO::FETCH_ASSOC);
             echo ' sp <br>';
             var_dump($data);
             echo ' <br>sp <br>';
@@ -88,33 +86,60 @@ class Database
             throw new Exception("Error Processing Request", 1);  
         }
     }
+    /**
+     * insertData - insert a row into a table
+     * @table: table to insert into
+     * @column: columns to insert into
+     * @values: values to insert
+     * Return: true if successful
+     */
+    public function insertData(string $table, array $columns, array $values)
+    {
+        if ($this->conn == NULL)
+        {
+            return (false);
+        }
+        $query = "INSERT INTO ".$table." (";
+        $col = implode(", ", $columns);
+        $query .= $col.") VALUES (";
+        $phs = array();
+        foreach ($values as $ph => $value) {
+           $phs[] = $ph;
+        }
+        $phs = implode(", ", $phs);
+        $query .= $phs.")";
+        echo $query;
+
+        try{
+            $q = $this->conn->prepare($query);
+            $q->execute($values);
+            return ($this->conn->lastInsertId());
+        }
+        catch (PDOException $err) {
+            throw new Exception("Error Processing Request", 1);  
+        }
+    }
     
 }
 
 
-// //connect to database
+//insert into users (name, password, email) values (:name, :password, :email)
+//connect to database
 // $DB_HOST = 'localhost';
 // $DB_USER = 'root';
 // $DB_PASSWORD = '';
 // $DB_NAME ='budget';
 // $dbs = new Database($DB_HOST,$DB_USER, $DB_PASSWORD, $DB_NAME);
 // $dbs->dbConnect();
-// $col = array("`first_name`","`last_name`","`amount`");
+// $col = array("`first_name`","`last_name`","`email`");
 // $fr = "`users`";
-// $join = array("`transactions`" => "`user_id`");//, "`ola`", "`dkd`");
+
 // $wh = array(
-//     '`user_id`' => ':user_id',
-//     '`transaction_id`' => ':trans_id'
+//     ':first_name' => 'Olawale',
+//     ':last_name' => 'Molola',
+//     ':email' => 'new@budget.com'
+// );
+// $dbs->insertData($fr, $col, $wh);
     
-// );/**'`ola`' => ':ola',
-// '`muy`' => ':muy' */
-// $val = array(
-//     ':user_id' => 5,
-//     ':trans_id' => 30
-    
-// );/**':ola' => "wealth",
-// ':muy' => "more" */
-// $dbs->dbGetData( $col ,$fr, $join, $wh, $val);
-// echo password_hash("funyunsss1", PASSWORD_DEFAULT);
 ?>
 
