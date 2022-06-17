@@ -67,14 +67,54 @@ elseif (isset($_POST['edit-transaction'])){
     /**
      * get post data
      */
-    $amount = $_POST['amount'];
-    $sub_cat = $_POST['sub-category'];
-    $desc = $_POST['description'];
-    $trans_id = $_POST['transaction-id'];
+    $amount = clean($_POST['amount']);
+    $sub_cat = clean($_POST['sub-category']);
+    $desc = clean($_POST['description']);
+    $trans_id = clean($_POST['transaction-id']);
+
+    //check desc validity
+    if($user->isNameValid($desc) == false)
+    {
+        $_SESSION['msg'] = "Description must be greater than 4 and less than 30 characters";
+        echo
+        "<script> 
+            history.go(-2);
+        </script>";
+    }
     
     /**
      * update transaction query
      */
+    $table = '`transactions`';
+    $set = array (
+        '`amount`=:amount',
+        '`sub_category_id`=:sub_cat',
+        '`description` =:desc'
+    );
+    $where = array ('`transaction_id`=:trans_id');
+    $value = array (
+        ':amount' => $amount,
+        ':sub_cat' => $sub_cat,
+        ':desc' => $desc,
+        'trans_id' => $trans_id
+    );
+    $updated = $dbs->updateData($table, $set, $where, $value);
+    if ($updated == true)
+    {
+        $_SESSION['msg'] = "Transaction edited successfully";
+        echo
+        "<script> 
+            history.go(-2);
+        </script>";
+    }
+    else
+    {
+        $_SESSION['msg'] = "Oops! Action failed due to technical issues";
+            echo
+        "<script> 
+            history.go(-2);
+        </script>";
+    }
     // $query = "UPDATE `transactions` SET `amount`=:amount, `sub_category_id`=:sub_cat, `description`=:desc WHERE `transaction_id`=:trans_id";
     // $statement = $dbs->prepare($query);
     // $statement->bindValue(':amount', $amount);
@@ -82,18 +122,6 @@ elseif (isset($_POST['edit-transaction'])){
     // $statement->bindValue(':desc', $desc);
     // $statement->bindValue(':trans_id', $trans_id);
     // $statement->execute();
-
-    /**
-     * Successful feedback
-     */
-    echo
-    "<script> 
-        alert('Transaction edited successfully!');
-        history.go(-2);
-    </script>";
-
-    $_POST = array();
-
 }
 else{
     header ("Location: ../book.php?book=".$book_id);

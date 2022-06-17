@@ -88,13 +88,13 @@ class Database
      * @table: table to insert into
      * @column: columns to insert into
      * @values: values to insert
-     * Return: true if successful
+     * Return: lastInsertedId if successful or null otherwise
      */
     public function insertData(string $table, array $columns, array $values)
     {
         if ($this->conn == NULL)
         {
-            return (false);
+            return (null);
         }
         $query = "INSERT INTO ".$table." (";
         $col = implode(", ", $columns);
@@ -114,12 +114,42 @@ class Database
             throw new Exception("Error Processing Request", 1);  
         }
     }
+    /**
+     * updateData - update a row in a table
+     * @table: table to update 
+     * @set: an array of the columns to update and their placeholder
+     * @where: an array of the columns to intersect and their placeholder
+     * @values: an array containing the placeholder and value
+     * Return: true if successful or false otherwise
+     */
+    public function updateData(string $table, array $set, array $where, array $values)
+    {
+        if ($this->conn == NULL)
+        {
+            return (false);
+        }
+        $query = "UPDATE ".$table." SET ";
+        $set_list = implode(", ", $set);
+        $query .=$set_list." WHERE ";
+        $where_list = implode(' AND ', $where);
+        $query .=$where_list;
+        //echo $query;
+        try{
+            $q = $this->conn->prepare($query);
+            $q->execute($values);
+            return (true);
+        }
+        catch (PDOException $err) {
+            return (false); 
+        }
+
+    }
     
 }
 
 ###########################################################################
 // Class Test
-
+//$query = "UPDATE `transactions` SET `amount`=:amount, `sub_category_id`=:sub_cat, `description`=:desc WHERE `transaction_id`=:trans_id";
 //insert into users (name, password, email) values (:name, :password, :email)
 //connect to database
 // $DB_HOST = 'localhost';
@@ -128,6 +158,20 @@ class Database
 // $DB_NAME ='budget';
 // $dbs = new Database($DB_HOST,$DB_USER, $DB_PASSWORD, $DB_NAME);
 // $dbs->dbConnect();
+// $table = '`transactions`';
+// $set = array (
+//     '`amount`=:amount',
+//     '`sub_category_id`=:sub_cat',
+//     '`description` =:desc'
+// );
+// $where = array ('`transaction_id`=:trans_id');
+// $value = array (
+//     ':amount' => 7001,
+//     ':sub_cat' => 21,
+//     ':desc' => "edited desc",
+//     'trans_id' => 30
+// );
+// $dbs->updateData($table, $set, $where, $value);
 // $col = array("`first_name`","`last_name`","`email`");
 // $fr = "`users`";
 

@@ -19,7 +19,7 @@ if (isset($_GET['book'])){
     {
         $_SESSION['msg'] = "oops! We're experiencing technical issue at the moment";
     }
-    
+
     if ($rdata == null){
         include_once "404.php";
         exit();
@@ -59,6 +59,11 @@ if (isset($_GET['book'])){
                 <div class="card-header">
                     Transactions
                 </div>
+                <?php
+                    echo isset($_SESSION['msg']) ? 
+                    "<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
+                    unset($_SESSION['msg']);
+                ?>
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $rdata['book_name'];?></h5>
                     <p><?php echo $rdata['category_id'] == 1 ? "Income" : "Expenditure" ;?></p>

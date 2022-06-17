@@ -72,7 +72,7 @@ class Account
       $where = array('`email`' => ':email');
       $value = array(':email' => $email);
       $exist = $this->db->dbGetData($col, "`users`", null, $where, $value);
-      if (is_array($exist))
+      if (is_array($exist) && !empty($exist))
       {
         $_SESSION['msg'] = "Email already exist, please login";
         return (false);
@@ -124,7 +124,7 @@ class Account
       $where = array('`email`' => ':email');
       $value = array(':email' => $email);
       $user = $this->db->dbGetData(null, '`users`', null, $where, $value);
-      if (is_array($user)){
+      if (is_array($user) && !empty($user)){
         if (password_verify($password, $user['password'])){
           $this->uid = $user['user_id'];
           $this->uname = $user['first_name'].' '.$user['last_name'];

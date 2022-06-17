@@ -17,7 +17,7 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
 
     //check if book exists
     $col = array ("`book_id`");
-    $table = "`book`";
+    $table = "`books`";
     $where = array (
         '`book_id`' => ':bk_id',
         '`category_id`' => ':cat_id',
@@ -29,8 +29,8 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
         ':uid' => $_SESSION['user_id']
     );
 
-    $book_id = $dbs->dbGetData($col, $table, null, $where, $val);
-    if ($book_id == NULL){
+    $g = $dbs->dbGetData($col, $table, null, $where, $val);
+    if ($g == NULL){
         include_once "404.php";
         exit();
     };

@@ -1,7 +1,7 @@
 <?php
 $page_title = "Add New Book";
+include_once "session.php";
 include_once "config.php";
-//include_once "session.php";
 include_once "template/header.php";
 
 $edit = false;

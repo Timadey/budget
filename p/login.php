@@ -14,7 +14,7 @@ if (isset($_POST["login"])){
         $_SESSION['email'] = $user->getEmail();
         $_SESSION['name'] = $user->getUname();
         $_SESSION['login'] = $user->getLogin();
-        var_dump($_SESSION);
+        //var_dump($_SESSION);
         echo "<script>alert('success!');</script>";
         header("Location: ../index.php");
     }
