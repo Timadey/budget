@@ -23,6 +23,11 @@ if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['categor
         <div class="card-header">
             Budget
         </div>
+        <?php
+            echo isset($_SESSION['msg']) ? 
+            "<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
+            unset($_SESSION['msg']);
+        ?>
         <div class="card-body">
             <h5 class="card-title"><a style="text-decoration:none" href="index.php">View books</a> / <?php echo $edit?'Edit '.$book_name:'Add a New book';?></h5>
             

@@ -11,7 +11,7 @@ if (isset($_POST["register"])){
   $password = $_POST["password"];
 
   $reg_id = $user->addAccount($first_name, $last_name, $email, $password);
-  if ($reg_id > 0)
+  if ($reg_id)
   {
     echo "<script>alert('Registration Successful. Please Login.');</script>";
     header("Location: ../authenticate/login.php");

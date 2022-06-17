@@ -17,11 +17,13 @@ if (isset($_POST["login"])){
         //var_dump($_SESSION);
         echo "<script>alert('success!');</script>";
         header("Location: ../index.php");
+        exit();
     }
     else
     {
         echo "<script>alert('Login Failed');</script>";
         header("Location: ../authenticate/login.php");
+        exit();
     }
 }
 else{

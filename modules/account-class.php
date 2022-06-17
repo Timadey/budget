@@ -51,9 +51,14 @@ class Account
     try
     {
       /** check if input is valid */
-      if (!$this->isNameValid($name))
+      if (!$this->isNameValid($first_name, 3, 10))
       {
-        $_SESSION['msg'] = "Invalid Name";
+        $_SESSION['msg'] = "Name must be greater than 3 and less than 10";
+        return (false);
+      }
+      if (!$this->isNameValid($last_name, 3, 10))
+      {
+        $_SESSION['msg'] = "Name must be greater than 3 and less than 10";
         return (false);
       }
       if (!$this->isEmailValid($email))
@@ -156,14 +161,14 @@ class Account
    * @name: name to check
    * Return: true or false
    */
-  public function isNameValid($name) : bool
+  public function isNameValid(string $name, int $min = 4, int $max = 30) : bool
   {
-    if (mb_strlen($name) < 30 && mb_strlen($name) > 4)
+    if (mb_strlen($name) > $min && mb_strlen($name) < $max)
     {
-      if (!preg_match("/^[a-zA-Z-']*$/", $name)){
-        return true;
-      }else{
+      if (!preg_match("/^[a-zA-Z]*$/", $name)){
         return false;
+      }else{
+        return true;
       }
     }; return false;
   }

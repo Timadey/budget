@@ -10,10 +10,10 @@ if (isset($_POST['log-transaction'])){
     $amount = clean($_POST['amount']);
     $sub_category_id = clean($_POST['sub-category']);
     $desc = clean($_POST['description']);
-
-    if ($book_id == "" or $type == "" or $amount == "" or $sub_category_id == "" or $desc == "" ){
+    if ($book_id == "" or $amount == "" or $sub_category_id == "" or $desc == "" ){
         $_SESSION['msg'] = "One or more empty field";
         header("Location: ../transaction.php");
+        exit();
     };
 
     //check desc validity
@@ -21,6 +21,7 @@ if (isset($_POST['log-transaction'])){
     {
         $_SESSION['msg'] = "Description must be greater than 4 and less than 30 characters";
         header("Location: ../transaction.php");
+        exit();
     }
     //desc is valid, insert data into database
     $col = array ("`user_id`", "`book_id`", "`sub_category_id`", "`amount`", "`description`");
@@ -36,11 +37,10 @@ if (isset($_POST['log-transaction'])){
     {
         $_SESSION['msg'] = "Transaction logged successfully";
         header("Location: ../transaction.php");
+        exit();
     }
 
 
-
-    
     // $query = "INSERT INTO `transactions` (`user_id`, `book_id`, `sub_category_id`, `amount`, `description`)
     // VALUES (:user_id, :book_id, :sub_cat_id, :amount, :desc)";
     // $statement = $dbs->prepare($query);
@@ -51,12 +51,6 @@ if (isset($_POST['log-transaction'])){
     // //$statement->bindValue(':type', $type);
     // $statement->bindValue(':desc', $desc);
     // $statement->execute();
-
-    echo
-    "<script> 
-        alert('Transaction logged successfully!');
-        history.back();
-    </script>";
 
 
 }
@@ -73,13 +67,14 @@ elseif (isset($_POST['edit-transaction'])){
     $trans_id = clean($_POST['transaction-id']);
 
     //check desc validity
-    if($user->isNameValid($desc) == false)
+    if(!$user->isNameValid($desc))
     {
         $_SESSION['msg'] = "Description must be greater than 4 and less than 30 characters";
         echo
         "<script> 
             history.go(-2);
         </script>";
+        exit();
     }
     
     /**
