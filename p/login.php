@@ -4,7 +4,6 @@ session_start();
 
 
 if (isset($_POST["login"])){
-    var_dump($_POST);
     $email = clean($_POST['email']);
     $password = ($_POST['password']);
     $data = $user->login($email, $password);

@@ -124,8 +124,6 @@ class Account
       $where = array('`email`' => ':email');
       $value = array(':email' => $email);
       $user = $this->db->dbGetData(null, '`users`', null, $where, $value);
-      echo ' <br>sp <br>';
-      var_dump($user);
       if (is_array($user)){
         if (password_verify($password, $user['password'])){
           $this->uid = $user['user_id'];

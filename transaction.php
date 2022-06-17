@@ -4,38 +4,59 @@ include_once "config.php";
 include_once "template/header.php";
 
 /**
- * check for log transaction GET data and log transaction
+ * check for log transaction GET data and log transaction in a a particular book
  */
 
 if (isset($_GET['book']) || isset($_GET['type']) ){
     //header("Location: index.php");
 
-    $book_id = trim($_GET['book']);
-    $book_type = trim($_GET['type']);
+    $book_id = clean($_GET['book']);
+    $book_type = clean($_GET['type']);
     $sub_categories;
 
-    //check get
-    $query = "SELECT book_id FROM books WHERE book_id=:book_id AND category_id=:book_type AND user_id=:user_id";
-    $statement = $dbs->prepare($query);
-    $statement->bindValue(':book_id', $book_id);
-    $statement->bindValue(':book_type', $book_type);
-    $statement->bindValue(':user_id', $uid);
-    $statement->execute();
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-    if (!$data){
+    //check if book exists
+    $col = array ("`book_id`");
+    $table = "`book`";
+    $where = array (
+        '`book_id`' => ':bk_id',
+        '`category_id`' => ':cat_id',
+        '`user_id`' => ':uid'
+    );
+    $val = array (
+        ':bk_id' => $book_id,
+        ':cat_id' => $book_type,
+        ':uid' => $_SESSION['user_id']
+    );
+
+    $book_id = $dbs->dbGetData($col, $table, null, $where, $val);
+    // //check get
+    // $query = "SELECT book_id FROM books WHERE book_id=:book_id AND category_id=:book_type AND user_id=:user_id";
+    // $statement = $dbs->prepare($query);
+    // $statement->bindValue(':book_id', $book_id);
+    // $statement->bindValue(':book_type', $book_type);
+    // $statement->bindValue(':user_id', $uid);
+    // $statement->execute();
+    // $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    if ($book_id == NULL){
         include_once "404.php";
         exit();
     };
 
     //get all sub category for the current book type
-    $query = "SELECT `sub_category`.`sub_category_id`, `sub_category`.`name`
-    FROM `sub_category`
-    WHERE `category_id`=:category_id";
 
-    $statement = $dbs->prepare($query);
-    $statement->bindValue(':category_id', $book_type);
-    $statement->execute();
-    $sub_categories = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $col = array ("`sub_category`.`sub_category_id`", "`sub_category`.`name`");
+    $table = "`sub_category`";
+    $where = array ('`category_id`'=> ':category_id');
+    $val = array (':category_id' => $book_type);
+    $sub_categories = $dbs->dbGetData($col, $table, null, $where, $val);
+    // $query = "SELECT `sub_category`.`sub_category_id`, `sub_category`.`name`
+    // FROM `sub_category`
+    // WHERE `category_id`=:category_id";
+
+    // $statement = $dbs->prepare($query);
+    // $statement->bindValue(':category_id', $book_type);
+    // $statement->execute();
+    // $sub_categories = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     // echo "<p>";
     // var_dump($sub_categories);
@@ -47,6 +68,11 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
             <div class="card-header">
                 Budget
             </div>
+            <?php
+                echo isset($_SESSION['msg']) ? 
+                "<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
+                unset($_SESSION['msg']);
+            ?>
             <div class="card-body">
                 <h5 class="card-title"><a style="text-decoration:none" href="book.php?book=<?php echo $book_id;?>">View book</a> / Log Transaction</h5>
                 
@@ -110,24 +136,28 @@ else if (isset($_POST['edit-transaction'])){
      * get all post data to edit transaction
      */
 
-    $transaction_id = trim($_POST['transaction-id']);
-    $transaction_amount = trim($_POST['transaction-amount']);
-    $transaction_desc = trim($_POST['transaction-desc']);
-    $book_type = trim($_POST['book-type']);
-    $sub_category_id = trim($_POST['sub-category-id']);
+    $transaction_id = clean($_POST['transaction-id']);
+    $transaction_amount = clean($_POST['transaction-amount']);
+    $transaction_desc = clean($_POST['transaction-desc']);
+    $book_type = clean($_POST['book-type']);
+    $sub_category_id = clean($_POST['sub-category-id']);
 
     /**
      * get all sub categories for the book type
      */
+    $col = array ("`sub_category`.`sub_category_id`", "`sub_category`.`name`");
+    $table = "`sub_category`";
+    $where = array ('`category_id`'=> ':category_id');
+    $val = array (':category_id' => $book_type);
+    $sub_categories = $dbs->dbGetData($col, $table, null, $where, $val);
+    // $query = "SELECT `sub_category`.`sub_category_id`, `sub_category`.`name`
+    //     FROM `sub_category`
+    //     WHERE `category_id`=:category_id";
 
-    $query = "SELECT `sub_category`.`sub_category_id`, `sub_category`.`name`
-        FROM `sub_category`
-        WHERE `category_id`=:category_id";
-
-        $statement = $dbs->prepare($query);
-        $statement->bindValue(':category_id', $book_type);
-        $statement->execute();
-        $sub_categories = $statement->fetchAll(PDO::FETCH_ASSOC); 
+    //     $statement = $dbs->prepare($query);
+    //     $statement->bindValue(':category_id', $book_type);
+    //     $statement->execute();
+    //     $sub_categories = $statement->fetchAll(PDO::FETCH_ASSOC); 
     ?>
 
 

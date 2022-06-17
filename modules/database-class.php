@@ -70,14 +70,10 @@ class Database
         }
         $where = implode(' AND ', $where_list);
         $query .= $where;
-        echo $query.'<br>';
         try {
             $q = ($this->conn)->prepare($query);
             $q->execute($value);
             $data = $q->fetchall(PDO::FETCH_ASSOC);
-            echo ' sp <br>';
-            var_dump($data);
-            echo ' <br>sp <br>';
             if (is_array($data)){
                 return $data;
             }; return NULL;
@@ -108,8 +104,6 @@ class Database
         }
         $phs = implode(", ", $phs);
         $query .= $phs.")";
-        echo $query;
-
         try{
             $q = $this->conn->prepare($query);
             $q->execute($values);
@@ -122,6 +116,8 @@ class Database
     
 }
 
+###########################################################################
+// Class Test
 
 //insert into users (name, password, email) values (:name, :password, :email)
 //connect to database
@@ -140,6 +136,6 @@ class Database
 //     ':email' => 'new@budget.com'
 // );
 // $dbs->insertData($fr, $col, $wh);
-    
+###########################################################################  
 ?>
 

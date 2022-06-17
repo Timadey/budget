@@ -6,10 +6,6 @@ include_once "template/header.php";
 
 
 try{
-    echo "user id : ".$user->getUid();
-    echo "<pre>";
-    var_dump($_SESSION);
-    echo "</pre>";
     $join = array('`category`' => '`category_id`');
     $where = array ('`user_id`' => ':user_id');
     $value = array (':user_id' => $_SESSION['user_id']);
