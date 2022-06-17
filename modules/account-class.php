@@ -165,7 +165,7 @@ class Account
   {
     if (mb_strlen($name) > $min && mb_strlen($name) < $max)
     {
-      if (!preg_match("/^[a-zA-Z]*$/", $name)){
+      if (!preg_match("/^[a-zA-Z- ']*$/", $name)){
         return false;
       }else{
         return true;

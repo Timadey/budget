@@ -76,7 +76,8 @@ if (isset($_POST['add-book'])){
         };
     };
 
-}elseif (isset($_POST['edit-book'])){
+}
+elseif (isset($_POST['edit-book'])){
     $book_id = trim($_POST['book-id']);
     $book_name = trim($_POST['book-name']);
     $book_desc = trim($_POST['book-desc']);
@@ -85,7 +86,7 @@ if (isset($_POST['add-book'])){
         $_SESSION['msg'] = "One or more empty field";
         echo
         "<script> 
-            history.go(-1;
+            history.go(-1);
         </script>";
         exit();
     }
