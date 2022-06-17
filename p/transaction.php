@@ -17,7 +17,7 @@ if (isset($_POST['log-transaction'])){
     };
 
     //check desc validity
-    if($user->isNameValid($desc) == false)
+    if(!$user->isNameValid($desc))
     {
         $_SESSION['msg'] = "Description must be greater than 4 and less than 30 characters";
         header("Location: ../transaction.php");

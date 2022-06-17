@@ -16,7 +16,7 @@ try{
 };
 
 
-if (is_array($data)){
+if (is_array($data) && !empty($data)){
     //load all books ?>
     <div class="card text-center">
         <div class="card-header">
