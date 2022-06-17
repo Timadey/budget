@@ -9,7 +9,7 @@ try{
     $join = array('`category`' => '`category_id`');
     $where = array ('`user_id`' => ':user_id');
     $value = array (':user_id' => $_SESSION['user_id']);
-    $data = $dbs->dbGetData(null, "`books`", $join, $where, $value);
+    $data = $dbs->dbGetData(null, "`books`", $join, $where, $value); //implement order by date desc in database class
     
 }catch(PDOException $err){
     echo "Failed to load books: ".$err->getMessage();

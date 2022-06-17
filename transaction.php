@@ -1,5 +1,6 @@
 <?php
 $page_title = "Log Transaction";
+include_once "session.php";
 include_once "config.php";
 include_once "template/header.php";
 
@@ -29,14 +30,6 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
     );
 
     $book_id = $dbs->dbGetData($col, $table, null, $where, $val);
-    // //check get
-    // $query = "SELECT book_id FROM books WHERE book_id=:book_id AND category_id=:book_type AND user_id=:user_id";
-    // $statement = $dbs->prepare($query);
-    // $statement->bindValue(':book_id', $book_id);
-    // $statement->bindValue(':book_type', $book_type);
-    // $statement->bindValue(':user_id', $uid);
-    // $statement->execute();
-    // $data = $statement->fetchAll(PDO::FETCH_ASSOC);
     if ($book_id == NULL){
         include_once "404.php";
         exit();
@@ -49,18 +42,6 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
     $where = array ('`category_id`'=> ':category_id');
     $val = array (':category_id' => $book_type);
     $sub_categories = $dbs->dbGetData($col, $table, null, $where, $val);
-    // $query = "SELECT `sub_category`.`sub_category_id`, `sub_category`.`name`
-    // FROM `sub_category`
-    // WHERE `category_id`=:category_id";
-
-    // $statement = $dbs->prepare($query);
-    // $statement->bindValue(':category_id', $book_type);
-    // $statement->execute();
-    // $sub_categories = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    // echo "<p>";
-    // var_dump($sub_categories);
-    // echo "</p>";
     ?>
     <div clas="container h-100">
     <div class="row justify-content-md-center h-100">
@@ -83,15 +64,6 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
                         <label for="amount">Amount</label>
                         <input id="amount" type="number" class="form-control" name="amount" value= "" required autofocus>
                     </div><br>
-
-                    <!-- <div class="form-group">
-                        <label for="type">Type</label>
-                        <select class="form-control" id="type" name="type" required>
-                            <option value="">Choose...</option>
-                            <option value=0 >Debit</option>
-                            <option value=1 >Credit</option>
-                        </select>
-                    </div><br> -->
 
                     <div class="form-group">
                         <label for="sub-category">Categories</label>
@@ -116,10 +88,6 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
             </div>
         </div>
     </div>
-            <!-- <div class="card-footer text-muted">
-                © 2022
-            </div> -->
-        <!-- </div> -->
     </div>
 
 <?php }
@@ -150,14 +118,6 @@ else if (isset($_POST['edit-transaction'])){
     $where = array ('`category_id`'=> ':category_id');
     $val = array (':category_id' => $book_type);
     $sub_categories = $dbs->dbGetData($col, $table, null, $where, $val);
-    // $query = "SELECT `sub_category`.`sub_category_id`, `sub_category`.`name`
-    //     FROM `sub_category`
-    //     WHERE `category_id`=:category_id";
-
-    //     $statement = $dbs->prepare($query);
-    //     $statement->bindValue(':category_id', $book_type);
-    //     $statement->execute();
-    //     $sub_categories = $statement->fetchAll(PDO::FETCH_ASSOC); 
     ?>
 
 

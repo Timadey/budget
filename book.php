@@ -1,48 +1,45 @@
 <?php
 $page_title = "Book";
+include_once "session.php";
 include_once "config.php";
 include_once "template/header.php";
 
 if (isset($_GET['book'])){
-    $book_id = trim($_GET['book']);
+    $book_id = clean($_GET['book']);
     //check if book exist
+    
+    $col = array ("`book_name`", "`book_id`", "`category_id`", "`description`");
+    $table = "`books`";
+    $where = array ('`books`.`book_id`' => ':book_id', '`books`.`user_id`' => ':user_id');
+    $val = array (':book_id' => $book_id, ':user_id' => $_SESSION['user_id']);
     try{
-        $query = "SELECT `book_name`, `book_id`, `category_id`, `description` FROM `books` WHERE books.book_id=:book_id AND books.user_id=:user_id";
-        $statement = $dbs->prepare($query);
-        $statement->bindValue(':book_id', $book_id);
-        $statement->bindValue(':user_id', $uid);
-        $statement->execute();
-        $rdata = $statement->fetch(PDO::FETCH_ASSOC);
-
-        if (!$rdata){
-          include_once "404.php";
-          exit();
-        };
-    }catch(PDOException $err){
-        echo "Can't load transactions: ".$err->getMessage();
+        $rdata = $dbs->dbGetData($col, $table, null, $where, $val);
+    }
+    catch(Exception $err)
+    {
+        $_SESSION['msg'] = "oops! We're experiencing technical issue at the moment";
+    }
+    
+    if ($rdata == null){
+        include_once "404.php";
+        exit();
     };
-
+    $rdata = $rdata[0];
+    
     try{
-        $query = "SELECT * FROM `books`
-         INNER JOIN `transactions` USING (`book_id`)
-         INNER JOIN `sub_category` USING (`sub_category_id`)
-         WHERE books.book_id=:book_id AND books.user_id=:user_id AND sub_category.category_id=:book_type ORDER BY transactions.date DESC";
+        $table = "`books`";
+        $join = array ('`transactions`' => '`book_id`', '`sub_category`' => '`sub_category_id`');
+        $where = array ('`books`.`book_id`' => ':book_id', '`books`.`user_id`' => ':user_id', '`sub_category`.`category_id`' => ':book_type');
+        $val = array (':book_id' => $book_id, ':user_id' => $_SESSION['user_id'], ':book_type' => $rdata['category_id']);
+        try{
+            $data = $dbs->dbGetData(null, $table, $join, $where, $val); // implement ORDER BY transactions.date DESC";
+        }
+        catch(Exception $err)
+        {
+            $_SESSION['msg'] = "oops! We're experiencing technical issue at the moment";
+        }
 
-        // $query = "SELECT * FROM transactions
-        //  INNER JOIN books USING (book_id)
-        //  WHERE book_id=:book_id AND transactions.user_id=:user_id ORDER BY transactions.date DESC";
-
-        $statement = $dbs->prepare($query);
-        $statement->bindValue(':book_id', $book_id);
-        $statement->bindValue(':book_type', $rdata['category_id']);
-        $statement->bindValue(':user_id', $uid);
-        $statement->execute();
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        // echo "<p>";
-        // var_dump($data);
-        // echo "</p>";
-
-        if (!$data){?>
+        if ($data == NULL){?>
            <div class="card text-center">
                 <div class="card-header">
                     Transactions

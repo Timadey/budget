@@ -70,6 +70,7 @@ class Database
         }
         $where = implode(' AND ', $where_list);
         $query .= $where;
+        //echo $query;
         try {
             $q = ($this->conn)->prepare($query);
             $q->execute($value);
