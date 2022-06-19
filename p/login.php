@@ -1,35 +1,30 @@
-<?php require_once "../config.php";
+<?php
+session_start();
+ require_once "../config.php";
+
 
 if (isset($_POST["login"])){
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-
-    $query = "SELECT * FROM `users` WHERE `email`=:email";
-    $statment = $dbs->prepare($query);
-    $statment->bindValue(':email', $email);
-    $statment->execute();
-    $data = $statment->fetchAll(PDO::FETCH_ASSOC);
-
-    if ($data){
-        $query = "SELECT * FROM `users` WHERE `email`=:email AND `password`=SHA(:password)";
-        $statment = $dbs->prepare($query);
-        $statment->bindValue(':email', $email);
-        $statment->bindValue(':password', $password);
-        $statment->execute();
-        $data = $statment->fetch(PDO::FETCH_ASSOC);
-        
-       $_SESSION['user_id'] = $data['user_id'];
-       $_SESSION['email'] = $data['email'];
-       $_SESSION['name'] = $data['first_name'].' '.$data['last_name'];
-
-       
-        // echo "<p>";
-        // var_dump($_SESSION);
-        // echo "</p>";
-
-    }else{
+    $email = clean($_POST['email']);
+    $password = ($_POST['password']);
+    $data = $user->login($email, $password);
+    unset($_POST);
+    if ($data == true)
+    {
+        $_SESSION['user_id'] = $user->getUid();
+        $_SESSION['email'] = $user->getEmail();
+        $_SESSION['name'] = $user->getUname();
+        $_SESSION['login'] = $user->getLogin();
+        //var_dump($_SESSION);
+        echo "<script>alert('success!');</script>";
+        header("Location: ../index.php");
+        exit();
+    }
+    else
+    {
+        echo "<script>alert('Login Failed');</script>";
         header("Location: ../authenticate/login.php");
-    };
+        exit();
+    }
 }
 else{
    header("Location: ../authenticate/login.php");

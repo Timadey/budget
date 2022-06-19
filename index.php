@@ -1,27 +1,23 @@
 <?php
 $page_title = "Home";
+include_once "session.php";
 include_once "config.php";
-//include_once "session.php";
 include_once "template/header.php";
 
 
 try{
-    $query = "SELECT * FROM `books` INNER JOIN `category` USING (`category_id`) WHERE `user_id`=:user_id ORDER BY `date` DESC";
-    $statement = $dbs->prepare($query);
-    $statement->bindValue(':user_id', $uid);
-    $statement->execute();
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $join = array('`category`' => '`category_id`');
+    $where = array ('`user_id`' => ':user_id');
+    $value = array (':user_id' => $_SESSION['user_id']);
+    $data = $dbs->dbGetData(null, "`books`", $join, $where, $value); //implement order by date desc in database class
     
 }catch(PDOException $err){
     echo "Failed to load books: ".$err->getMessage();
 };
 
 
-if ($data){
-    //load all books
-    // echo "<p>";
-    // var_dump($data);
-    // echo "</p>"; ?>
+if (is_array($data) && !empty($data)){
+    //load all books ?>
     <div class="card text-center">
         <div class="card-header">
             Budget

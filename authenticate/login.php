@@ -26,6 +26,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION[
 					<div class="card fat">
 						<div class="card-body">
 							<h4 class="card-title">Login</h4>
+							<?php
+								echo isset($_SESSION['msg']) ? 
+								"<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
+								unset($_SESSION['msg']);
+							?>
 							<form method="POST" action="../p/login.php" class="my-login-validation" id="login-form" novalidate="">
 								<div class="form-group">
 									<label for="email">E-Mail Address</label>
