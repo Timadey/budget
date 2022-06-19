@@ -47,7 +47,11 @@ if (isset($_GET['book'])){
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $rdata['book_name'];?></h5> 
                     <p class="card-text">No transaction found in this book. <br> Log a new transaction in this book to view it.</p>
-                    <a href="transaction.php?book=<?php echo $rdata['book_id'].'&type='.$rdata['category_id'];?>" class="btn btn-primary">Log a transaction</a>
+                    <a href="transaction.php?book=<?php echo $rdata['book_id'].'&type='.$rdata['category_id'];?>" class="btn btn-outline-primary">Log a transaction</a>
+                    <a href="delete.php?book=<?php echo $rdata['book_id'];?>">
+                        <button onclick="return confirm('You\'re trying to delete an entire book. All data and recorded transaction will be deleted, continue?')" 
+                        class="btn btn-outline-danger">Delete</button>
+                    </a>
                 </div>
                 <div class="card-footer text-muted">
                     © 2022
