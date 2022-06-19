@@ -17,7 +17,7 @@ if (isset($_GET['book'])){
     }
     catch(Exception $err)
     {
-        $_SESSION['msg'] = "oops! We're experiencing technical issue at the moment";
+        $_SESSION['msg'] = alert("oops! We're experiencing technical issue at the moment", 0);
     }
 
     if ($rdata == null){
@@ -36,7 +36,7 @@ if (isset($_GET['book'])){
         }
         catch(Exception $err)
         {
-            $_SESSION['msg'] = "oops! We're experiencing technical issue at the moment";
+            $_SESSION['msg'] = alert("oops! We're experiencing technical issue at the moment", 0);
         }
 
         if ($data == NULL){?>
@@ -60,8 +60,7 @@ if (isset($_GET['book'])){
                     Transactions
                 </div>
                 <?php
-                    echo isset($_SESSION['msg']) ? 
-                    "<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
+                    echo isset($_SESSION['msg']) ? $_SESSION['msg'] : "";
                     unset($_SESSION['msg']);
                 ?>
                 <div class="card-body">

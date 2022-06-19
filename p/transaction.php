@@ -11,7 +11,7 @@ if (isset($_POST['log-transaction'])){
     $sub_category_id = clean($_POST['sub-category']);
     $desc = clean($_POST['description']);
     if ($book_id == "" or $amount == "" or $sub_category_id == "" or $desc == "" ){
-        $_SESSION['msg'] = "One or more empty field";
+        $_SESSION['msg'] = alert("One or more empty field", 0);
         header("Location: ../transaction.php");
         exit();
     };
@@ -19,7 +19,7 @@ if (isset($_POST['log-transaction'])){
     //check desc validity
     if(!$user->isNameValid($desc))
     {
-        $_SESSION['msg'] = "Description must contain only letters, greater than 4 and less than 30 characters";
+        $_SESSION['msg'] = alert("Description must contain only letters, greater than 4 and less than 30 characters", 0);
         header("Location: ../transaction.php");
         exit();
     }
@@ -35,8 +35,8 @@ if (isset($_POST['log-transaction'])){
     $insert_id = $dbs->insertData("`transactions`", $col, $val);
     if ($insert_id > 0)
     {
-        $_SESSION['msg'] = "Transaction logged successfully";
-        header("Location: ../transaction.php");
+        $_SESSION['msg'] = alert("Transaction logged successfully", 1);
+        header ("Location: ../book.php?book=".$book_id);
         exit();
     }
 
@@ -69,7 +69,7 @@ elseif (isset($_POST['edit-transaction'])){
     //check desc validity
     if(!$user->isNameValid($desc))
     {
-        $_SESSION['msg'] = "Description must contain only letters, greater than 4 and less than 30 characters";
+        $_SESSION['msg'] = alert("Description must contain only letters, greater than 4 and less than 30 characters", 0);
         echo
         "<script> 
             history.go(-2);
@@ -96,7 +96,7 @@ elseif (isset($_POST['edit-transaction'])){
     $updated = $dbs->updateData($table, $set, $where, $value);
     if ($updated == true)
     {
-        $_SESSION['msg'] = "Transaction edited successfully";
+        $_SESSION['msg'] = alert("Transaction edited successfully", 1);
         echo
         "<script> 
             history.go(-2);
@@ -104,7 +104,7 @@ elseif (isset($_POST['edit-transaction'])){
     }
     else
     {
-        $_SESSION['msg'] = "Oops! Action failed due to technical issues";
+        $_SESSION['msg'] = alert("Oops! Action failed due to technical issues", 0);
             echo
         "<script> 
             history.go(-2);

@@ -11,7 +11,7 @@ if (isset($_POST['add-book'])){
     $book_type = trim($_POST['book-type']);
 
     if ($book_name == "" || $book_desc == "" || $book_type == ""){
-        $_SESSION['msg'] = "One or more empty field";
+        $_SESSION['msg'] = alert("One or more empty field", 0);
         echo
         "<script> 
             history.go(-1);
@@ -20,7 +20,7 @@ if (isset($_POST['add-book'])){
     }
     else if(!$user->isNameValid($book_name, 4, 20))
     {
-        $_SESSION['msg'] = "Name must contain only characters greater than 4 and less than 20 characters";
+        $_SESSION['msg'] = alert("Name must contain only letters, greater than 4 and less than 20 characters", 0);
         echo
         "<script> 
             history.go(-1);
@@ -29,7 +29,7 @@ if (isset($_POST['add-book'])){
     }
     else if(!$user->isNameValid($book_desc, 4, 30))
     {
-        $_SESSION['msg'] = "Description must contain only characters greater than 4 and less than 30 characters";
+        $_SESSION['msg'] = alert("Description must contain only letters, greater than 4 and less than 30 characters", 0);
         echo
         "<script> 
             history.go(-1);
@@ -57,7 +57,7 @@ if (isset($_POST['add-book'])){
                 exit();
             }
             else{
-                $_SESSION['msg'] = "Book not added due to technical issue";
+                $_SESSION['msg'] = alert("Book not added due to technical issue", 0);
                 header ("Location: ..index.php");
                 exit();
             }
@@ -83,7 +83,7 @@ elseif (isset($_POST['edit-book'])){
     $book_desc = trim($_POST['book-desc']);
 
     if ($book_name == "" || $book_desc == "" || $book_id == ""){
-        $_SESSION['msg'] = "One or more empty field";
+        $_SESSION['msg'] = alert("One or more empty field", 0);
         echo
         "<script> 
             history.go(-1);
@@ -92,7 +92,7 @@ elseif (isset($_POST['edit-book'])){
     }
     else if(!$user->isNameValid($book_name, 4, 20))
     {
-        $_SESSION['msg'] = "Name must contain only characters greater than 4 and less than 20 characters";
+        $_SESSION['msg'] = alert("Name must contain only letters, greater than 4 and less than 20 characters", 0);
         echo
         "<script> 
             history.go(-1);
@@ -101,7 +101,7 @@ elseif (isset($_POST['edit-book'])){
     }
     else if(!$user->isNameValid($book_desc, 4, 30))
     {
-        $_SESSION['msg'] = "Description must contain only characters greater than 4 and less than 30 characters";
+        $_SESSION['msg'] = alert("Description must contain only letters, greater than 4 and less than 30 characters", 0);
         echo
         "<script> 
             history.go(-1);
@@ -120,7 +120,7 @@ elseif (isset($_POST['edit-book'])){
             }
             catch(Exception $err)
             {
-                $_SESSION['msg'] = "oops! We're experiencing technical issue at the moment";
+                $_SESSION['msg'] = alert("oops! We're experiencing technical issue at the moment", 0);
             }
 
             if ($rdata == null){
@@ -147,7 +147,7 @@ elseif (isset($_POST['edit-book'])){
             // };
         }
         catch(PDOException $err){
-            $_SESSION['msg'] = "Oops! Action failed due to technical issues";
+            $_SESSION['msg'] = alert("Oops! Action failed due to technical issues", 0);
             echo 
                 "<script> 
                 window.location.href = '../book.php?book=".$book_id."';
@@ -175,7 +175,7 @@ elseif (isset($_POST['edit-book'])){
             }
             else
             {
-                $_SESSION['msg'] = "Oops! Book not edited";
+                $_SESSION['msg'] = alert("Oops! Book not edited", 0);
                 echo 
                     "<script> 
                     window.location.href = '../book.php?book=".$book_id."';
@@ -193,7 +193,7 @@ elseif (isset($_POST['edit-book'])){
             
         }
         catch(PDOException $err){
-            $_SESSION['msg'] = "Oops! Action failed due to technical issues";
+            $_SESSION['msg'] = alert("Oops! Action failed due to technical issues", 0);
             echo 
                 "<script> 
                 window.location.href = '../book.php?book=".$book_id."';

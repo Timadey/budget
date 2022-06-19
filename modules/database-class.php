@@ -144,7 +144,30 @@ class Database
         }
 
     }
-    
+    /**
+     * deleteData - delete a row from a table
+     * @table: table to delete from
+     * @where: array of columns to intersect row
+     * Return: no of row deleted on success or false on failure
+     */
+    public function deleteData (string $table, array $where, array $values)
+    {
+        if ($this->conn == NULL)
+        {
+            return (false);
+        }
+        $where_list = implode (" AND ", $where);
+        $query = "DELETE FROM ".$table." WHERE ".$where_list;
+        //echo $query;
+        try{
+            $q = $this->conn->prepare($query);
+            $q->execute($values);
+            return ($q->rowCount());
+        }
+        catch (PDOException $err) {
+            return (false); 
+        }
+    }
 }
 
 ###########################################################################

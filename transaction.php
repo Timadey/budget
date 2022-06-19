@@ -50,8 +50,7 @@ if (isset($_GET['book']) || isset($_GET['type']) ){
                 Budget
             </div>
             <?php
-                echo isset($_SESSION['msg']) ? 
-                "<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
+               echo isset($_SESSION['msg']) ? $_SESSION['msg'] : "";
                 unset($_SESSION['msg']);
             ?>
             <div class="card-body">

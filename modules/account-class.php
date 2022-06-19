@@ -53,22 +53,22 @@ class Account
       /** check if input is valid */
       if (!$this->isNameValid($first_name, 3, 10))
       {
-        $_SESSION['msg'] = "Name must be greater than 3 and less than 10";
+        $_SESSION['msg'] = alert("Name must be greater than 3 and less than 10", 0);
         return (false);
       }
       if (!$this->isNameValid($last_name, 3, 10))
       {
-        $_SESSION['msg'] = "Name must be greater than 3 and less than 10";
+        $_SESSION['msg'] = alert("Name must be greater than 3 and less than 10", 0);
         return (false);
       }
       if (!$this->isEmailValid($email))
       {
-        $_SESSION['msg'] = "Invalid Email";
+        $_SESSION['msg'] = alert("Invalid Email", 0);
         return (false);
       }
       if (!$this->isPasswordValid($password))
       {
-        $_SESSION['msg'] = "Password must be greater than 7 characters";
+        $_SESSION['msg'] = alert("Password must be greater than 7 characters", 0);
         return (false);
       }
 
@@ -79,7 +79,7 @@ class Account
       $exist = $this->db->dbGetData($col, "`users`", null, $where, $value);
       if (is_array($exist) && !empty($exist))
       {
-        $_SESSION['msg'] = "Email already exist, please login";
+        $_SESSION['msg'] = alert("Email already exist, please login", 0);
         return (false);
       }
       
@@ -96,12 +96,12 @@ class Account
       $register = $this->db->insertData($table, $columns, $values);
       if ($register > 0)
       {
-        $_SESSION['msg'] = "Registration Successful. Please Login";
+        $_SESSION['msg'] = alert("Registration Successful. Please Login", 1);
         return($register); 
       }
       else
       {
-        $_SESSION['msg'] = "Oops! Registration failed due to technical reasons";
+        $_SESSION['msg'] = alert("Oops! Registration failed due to technical reasons", 0);
         return (false);
       }
     }
@@ -122,7 +122,7 @@ class Account
       if ($this->uid != NULL && $this->login != false) { return (1); }
       if (!$this->isEmailValid($email)) 
       {
-        $_SESSION['msg'] = "Invalid Email";
+        $_SESSION['msg'] = alert("Invalid Email", 0);
         return (false);
       }
 
@@ -141,13 +141,13 @@ class Account
           return (true);
         }else
         {
-          $_SESSION['msg'] = "Incorrect Password";
+          $_SESSION['msg'] = alert("Incorrect Password", 0);
           return (false);
         }
       }
       else
       {
-        $_SESSION['msg'] = "User does not exist";
+        $_SESSION['msg'] = alert("User does not exist", 0);
         return (false);
       }
       
