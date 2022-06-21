@@ -17,5 +17,4 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['email']) && !isset($_SESSI
         setcookie('name', $_SESSION['name'], time()+(60 * 60 * 24 * 2));
     };
 };
-
 ?>

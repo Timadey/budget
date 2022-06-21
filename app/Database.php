@@ -1,4 +1,5 @@
 <?php
+namespace app;
 /**
  * Database - Handles repetitive actions done on database
  */
@@ -27,11 +28,11 @@ class Database
     public function dbConnect()
     {
         try{
-            $this->conn = new PDO("mysql:host=$this->dbHost;dbname=$this->dbName", $this->dbUser, $this->dbPassword);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn = new \PDO("mysql:host=$this->dbHost;dbname=$this->dbName", $this->dbUser, $this->dbPassword);
+            $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             return $this->conn;
         }
-        catch(PDOException $err){
+        catch(\PDOException $err){
             echo "Connection failed: ". $err->getMessage();
         }
     }
@@ -48,7 +49,7 @@ class Database
     public function dbGetData(array $column = NULL, string $from, array $join = NULL, array $where, array $value)
     {
         if ($this->conn == NULL){
-            throw New Exception("Database connection not found");
+            throw New \Exception("Database connection not found");
         }
         $query = "";
         if ($join != NULL){
@@ -74,13 +75,13 @@ class Database
         try {
             $q = ($this->conn)->prepare($query);
             $q->execute($value);
-            $data = $q->fetchall(PDO::FETCH_ASSOC);
+            $data = $q->fetchall(\PDO::FETCH_ASSOC);
             if (is_array($data)){
                 return $data;
             }; return NULL;
             
-        } catch (PDOException $err) {
-            throw new Exception("Error Processing Request", 1);  
+        } catch (\PDOException $err) {
+            throw new \Exception("Error Processing Request", 1);  
         }
     }
     /**
@@ -110,8 +111,8 @@ class Database
             $q->execute($values);
             return ($this->conn->lastInsertId());
         }
-        catch (PDOException $err) {
-            throw new Exception("Error Processing Request", 1);  
+        catch (\PDOException $err) {
+            throw new \Exception("Error Processing Request", 1);  
         }
     }
     /**
@@ -139,7 +140,7 @@ class Database
             $q->execute($values);
             return (true);
         }
-        catch (PDOException $err) {
+        catch (\PDOException $err) {
             return (false); 
         }
 
@@ -164,7 +165,7 @@ class Database
             $q->execute($values);
             return ($q->rowCount());
         }
-        catch (PDOException $err) {
+        catch (\PDOException $err) {
             return (false); 
         }
     }

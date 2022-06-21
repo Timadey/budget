@@ -1,4 +1,5 @@
 <?php
+namespace app;
 /**
  * Account - a class that handles everything related to the user
  * Creates new account for users if they don't exist
@@ -105,7 +106,7 @@ class Account
         return (false);
       }
     }
-    catch(Exception $err)
+    catch(\Exception $err)
     {
       return (-1);
     };
@@ -152,8 +153,8 @@ class Account
       }
       
     }
-    catch(Exception $err){
-      //catch exception
+    catch(\Exception $err){
+      //catch \exception
     }
   }
   /**
