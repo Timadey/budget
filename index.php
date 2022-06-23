@@ -6,10 +6,10 @@ include_once "template/header.php";
 
 
 try{
-    $join = array('`category`' => '`category_id`');
+    //$join = array('`category`' => '`category_id`');
     $where = array ('`user_id`' => ':user_id');
     $value = array (':user_id' => $_SESSION['user_id']);
-    $data = $dbs->dbGetData(null, "`books`", $join, $where, $value); //implement order by date desc in database class
+    $data = $dbs->dbGetData(null, "`books`", null, $where, $value); //implement order by date desc in database class
     
 }catch(PDOException $err){
     echo "Failed to load books: ".$err->getMessage();
@@ -29,7 +29,7 @@ if (is_array($data) && !empty($data)){
                     <tr>
                         <th scope="col">S/N</th>
                         <th scope="col">Book Name</th>
-                        <th scope="col">Type</th>
+                        <!-- <th scope="col">Type</th> -->
                         <th scope="col">Date Added</th>
                     </tr>
                 </thead>
@@ -38,8 +38,8 @@ if (is_array($data) && !empty($data)){
                     <tr>
                         <th scope="row"><?php echo $key + 1 ?></th>
                         <td><a style="text-decoration:none" href="book.php?book=<?php echo $value['book_id'];?>"><?php echo $value['book_name'];?></a></td>
-                        <td><?php echo $value['category_name'];?></td>
-                        <td><?php echo $value['date'];?></td>
+                        <!-- <td><?php //echo $value['category_name'];?></td> -->
+                        <td><?php echo $value['book_date'];?></td>
                     </tr>
 
                 <?php };?>

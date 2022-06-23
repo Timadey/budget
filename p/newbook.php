@@ -6,11 +6,11 @@ require_once "../config.php";
 // echo "</p>";
 
 if (isset($_POST['add-book'])){
-    $book_name = trim($_POST['book-name']);
-    $book_desc = trim($_POST['book-desc']);
-    $book_type = trim($_POST['book-type']);
+    $book_name = clean($_POST['book-name']);
+    $book_desc = clean($_POST['book-desc']);
+    //$book_type = clean($_POST['book-type']);
 
-    if ($book_name == "" || $book_desc == "" || $book_type == ""){
+    if ($book_name == "" || $book_desc == ""){
         $_SESSION['msg'] = alert("One or more empty field", 0);
         echo
         "<script> 
@@ -18,18 +18,18 @@ if (isset($_POST['add-book'])){
         </script>";
         exit();
     }
-    else if(!$user->isNameValid($book_name, 4, 20))
+    else if(!$user->isNameValid($book_name, 4, 30))
     {
-        $_SESSION['msg'] = alert("Name must contain only letters, greater than 4 and less than 20 characters", 0);
+        $_SESSION['msg'] = alert("Name must contain only letters, greater than 4 and less than 30 characters", 0);
         echo
         "<script> 
             history.go(-1);
         </script>";
         exit();
     }
-    else if(!$user->isNameValid($book_desc, 4, 30))
+    else if(!$user->isNameValid($book_desc, 4, 100))
     {
-        $_SESSION['msg'] = alert("Description must contain only letters, greater than 4 and less than 30 characters", 0);
+        $_SESSION['msg'] = alert("Description must contain only letters, greater than 4 and less than 100 characters", 0);
         echo
         "<script> 
             history.go(-1);
@@ -39,13 +39,14 @@ if (isset($_POST['add-book'])){
     else{
         try{
             $table = "`books`";
-            $col = array ('`user_id`', '`book_name`', '`category_id`', '`description`');
+            $col = array ('`user_id`', '`book_name`', '`book_desc`');
             $val = array (
                 ':user_id' => $_SESSION['user_id'],
                 ':bk_name' => $book_name,
-                ':cat_id' => $book_type,
-                ':bk_desc' => $book_type
+                //':cat_id' => $book_type,
+                ':bk_desc' => $book_desc
             );
+            var_dump($val);
             $last_added = $dbs->insertData($table, $col, $val);
             if ($last_added)
             {

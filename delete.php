@@ -5,7 +5,7 @@ require_once "config.php";
 if (isset($_GET['book'])){
     $book_id = $_GET['book'];
 
-    //check if book exist
+    //check if book exist and belongs to user
     try{
         $col = array ("`book_id`");
         $table = "`books`";
@@ -89,31 +89,34 @@ if (isset($_GET['book'])){
     
 
 }
-elseif (isset($_POST['delete-transaction'])){
-    $transaction_id = clean($_POST['delete-transaction']);
-    $table = '`transactions`';
-    $where = array (' `transaction_id`=:transaction_id');
-    $values = array (':transaction_id' => $transaction_id);
-    $deleted = $dbs->deleteData($table, $where, $values);
-    if (!$deleted){
-        echo 
-            "<script> 
-            alert('Book not deleted due to technical issues!');
-            </script>"; 
-        exit();
-    }
-    // $query = "DELETE FROM `transactions` WHERE `transaction_id`=:transaction_id";
-    // $statement = $dbs->prepare($query);
-    // $statement->bindValue(':transaction_id', $transaction_id);
-    // $statement->execute();
+/**
+ * Transactions shouldn't be deleted, so, comment out
+ */
+// elseif (isset($_POST['delete-transaction'])){
+//     $transaction_id = clean($_POST['delete-transaction']);
+//     $table = '`transactions`';
+//     $where = array (' `transaction_id`=:transaction_id');
+//     $values = array (':transaction_id' => $transaction_id);
+//     $deleted = $dbs->deleteData($table, $where, $values);
+//     if (!$deleted){
+//         echo 
+//             "<script> 
+//             alert('Book not deleted due to technical issues!');
+//             </script>"; 
+//         exit();
+//     }
+//     // $query = "DELETE FROM `transactions` WHERE `transaction_id`=:transaction_id";
+//     // $statement = $dbs->prepare($query);
+//     // $statement->bindValue(':transaction_id', $transaction_id);
+//     // $statement->execute();
 
-    $_SESSION['msg'] = alert("Transaction deleted succesfully", 1);
-    echo 
-    "<script> 
-        alert('Transaction deleted successfully!');
-        history.back();
-    </script>"; 
-}
+//     $_SESSION['msg'] = alert("Transaction deleted succesfully", 1);
+//     echo 
+//     "<script> 
+//         alert('Transaction deleted successfully!');
+//         history.back();
+//     </script>"; 
+// }
 else{
     "<script> 
         history.back();

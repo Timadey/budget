@@ -197,6 +197,18 @@ class Account
       return false;
     }; return true;
   }
+  /**
+   * isNumValid - check if the input contains only numbers
+   * @num: input to check
+   * Return: true if valid, otherwise false
+   */
+  public function isNumValid ($num)
+  {
+    if (preg_match("/^[0-9]*$/", $num))
+    {
+      return true;
+    }return false;
+  }
 
 }
 ?>

@@ -76,7 +76,7 @@ class Database
             $q = ($this->conn)->prepare($query);
             $q->execute($value);
             $data = $q->fetchall(\PDO::FETCH_ASSOC);
-            if (is_array($data)){
+            if (is_array($data) && !empty($data)){
                 return $data;
             }; return NULL;
             
@@ -106,6 +106,8 @@ class Database
         }
         $phs = implode(", ", $phs);
         $query .= $phs.")";
+        echo $query;
+        //exit;
         try{
             $q = $this->conn->prepare($query);
             $q->execute($values);

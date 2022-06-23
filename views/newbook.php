@@ -9,12 +9,12 @@ $book_name = "";
 $book_type = "";
 $book_id = "";
 $book_desc = "";
-if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['book_desc'])){
+if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['category_id']) && isset($_GET['description'])){
     $edit = true;
-    $book_name = clean($_GET['book_name']);
-    //$book_type = clean($_GET['category_id']);
-    $book_id = clean($_GET['book_id']);
-    $book_desc = clean($_GET['book_desc']);
+    $book_name = $_GET['book_name'];
+    $book_type = $_GET['category_id'];
+    $book_id = $_GET['book_id'];
+    $book_desc = $_GET['description'];
 };
 ?>
 <div clas="container h-100">
@@ -40,14 +40,14 @@ if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['book_de
                     </div>
                 </div><br>
 
-                <!-- <div class="form-group">
+                <div class="form-group">
                     <label for="book-type">Book Type</label>
-                    <select class="form-control" id="book-type" name="book-type" <?php //echo $edit ? 'disabled':'';?> required>
+                    <select class="form-control" id="book-type" name="book-type" <?php echo $edit ? 'disabled':'';?> required>
                         <option value="">Choose...</option>
-                        <option value=1 <?php //echo $book_type == 1 ? 'selected':'';?>>Income</option>
-                        <option value=2 <?php //echo $book_type == 2 ? 'selected':'';?>>Expenditure</option>
+                        <option value=1 <?php echo $book_type == 1 ? 'selected':'';?>>Income</option>
+                        <option value=2 <?php echo $book_type == 2 ? 'selected':'';?>>Expenditure</option>
                     </select>
-                </div><br> -->
+                </div><br>
                 <div class="form-group">
                     <label for="book-desc">Description</label>
                     <textarea class="form-control" id="book-desc" name="book-desc" rows="3" required><?php echo $edit ? $book_desc:'';?></textarea>
