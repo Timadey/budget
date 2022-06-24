@@ -1,6 +1,5 @@
 <?php
 namespace app;
-use PDO;
 /**
  * Database - Handles repetitive actions done on database
  */
@@ -29,8 +28,8 @@ class Database
     public function dbConnect()
     {
         try{
-            $this->conn = new PDO("mysql:host=$this->dbHost;dbname=$this->dbName", $this->dbUser, $this->dbPassword);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->conn = new \PDO("mysql:host=$this->dbHost;dbname=$this->dbName", $this->dbUser, $this->dbPassword);
+            $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             return $this->conn;
         }
         catch(\PDOException $err){
