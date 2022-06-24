@@ -158,7 +158,7 @@ elseif (isset($_POST['edit-book'])){
         //book exist, update book
         try{
             $table = '`books`';
-            $set = array ('`book_name`=:book_name', '`description`=:book_desc');
+            $set = array ('`book_name`=:book_name', '`book_desc`=:book_desc');
             $where = array (' `book_id`=:book_id');
             $val = array (
                 ':book_name' => $book_name,
@@ -176,7 +176,7 @@ elseif (isset($_POST['edit-book'])){
             }
             else
             {
-                $_SESSION['msg'] = alert("Oops! Book not edited", 0);
+                $_SESSION['msg'] = alert("Oops! Book not edited due to technical issues", 0);
                 echo 
                     "<script> 
                     window.location.href = '../book.php?book=".$book_id."';
