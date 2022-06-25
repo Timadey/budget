@@ -2,8 +2,10 @@
 namespace app\controllers;
 
 Use app\router\Router;
-Use app\Help;
+Use app\helpers\Help;
+Use app\models\Book;
 Use FFI\Exception;
+
 
 class BookController
 {
@@ -56,7 +58,7 @@ class BookController
                         }
                     
                         if ($book == null){
-                                echo $router->renderView("404.php");
+                                echo $router->renderView("404", ['page_title' => 'Page not found']);
                                 exit();
                         };
                         $book = $book[0];
@@ -84,15 +86,16 @@ class BookController
                 }
                 else
                 {
-                        header("Location: index");
+                        header("Location: /");
                 };
         }
         /**
          * addBook - RenderView for Book page
          * @Router: an instance of Router class
          */
-        public static function addBook(Router $router)
+        public static function updateBook(Router $router)
         {
+                $edit = false;
                 if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['book_desc']))
                 {
                         $book_name = Help::clean($_GET['book_name']);
@@ -115,24 +118,61 @@ class BookController
                         }
                     
                         if ($book == null){
-                                echo $router->renderView("404.php");
-                                exit();
+                                echo $router->renderView("404", ['page_title' => 'Page not found']);
+                                exit;
                         };
-                };
-                
-                echo $router->renderView('book/edit_book',
-                [
-                        '$page_title' => $edit ?? 'Add New Book',
+                }
+               
+                echo $router->renderView('book/update_book', [
+                        'page_title' => $edit ?:'Add New Book',
+                        'edit' => $edit ?: 'Add New Book',
+                        'view_book' => $edit ? '/book?book='.$book_id : '/',
+                        'form_action' => $edit ? '/book/edit' : '/book/add',
+                        'error' => $error??null,
                         'book_id' => $edit ? $book_id : '',
+                        'book_name' => $edit ? $book_name : '',
                         'book_desc' => $edit ? $book_desc : '',
                         'button_id' => $edit ? 'btn-edit-book' : 'btn-add-book',
                         'button_name' => $edit ? 'edit-book' : 'add-book',
                         'button_label' => $edit ? 'Edit Book' : 'Add Book'
                 ]);
         }
-        public static function editBook()
+        public static function addBook(Router $router)
         {
-                echo "edit book page";
+                if (isset($_POST['add-book']))
+                {
+                        $book_name = Help::clean($_POST['book-name']);
+                        $book_desc = Help::clean($_POST['book-desc']);
+
+                        $book = new Book($router->dbs, [
+                                'user_id' => $_SESSION['user_id'],
+                                'book_name' => $book_name,
+                                'book_desc' => $book_desc
+                        ]);
+                        $error = $book->addNewBook();
+                        
+                        if (is_int($error))
+                        {
+                                header("Location: /book?book=$error");
+                                exit;
+                        }
+                        if ($error === null)
+                        $error[] = "Oops! We're experencing technical issues";
+
+                }
+                echo $router->renderView('book/update_book', [
+                        'page_title' => 'Add New Book',
+                        'edit' => 'Add New Book',
+                        'view_book' => '/',
+                        'form_action' => '/book/add',
+                        'error' => $error??null,
+                        'book_id' => '',
+                        'book_name' => $book_name,
+                        'book_desc' =>$book_desc,
+                        'button_id' => 'btn-add-book',
+                        'button_name' => 'add-book',
+                        'button_label' => 'Add Book'
+                ]);
         }
 }
 ?>

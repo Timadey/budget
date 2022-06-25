@@ -1,7 +1,7 @@
 <?php
 namespace app\router;
 
-use app\Database;
+use app\operations\Database;
 
 class Router
 {
@@ -36,16 +36,20 @@ class Router
                 }
                 if (!$fn)
                 {
-                        echo "404 not found!";
+                        echo $this->renderView("404", ['page_title' => 'Page not found']);
                 }
-                call_user_func($fn, $this);
+                else
+                {
+                        call_user_func($fn, $this);
+                }
+                
         }
 
         public function renderView ($view, $params = [])
         {
-                echo '<pre>';
-                var_dump($_SERVER);
-                echo '</pre>';
+                // echo '<pre>';
+                // var_dump($_SERVER);
+                // echo '</pre>';
                 //exit;
                 foreach ($params as $key => $value) {
                         $$key = $value; 

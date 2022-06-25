@@ -1,5 +1,5 @@
 <?php
-namespace app;
+namespace app\operations;
 /**
  * Account - a class that handles everything related to the user
  * Creates new account for users if they don't exist

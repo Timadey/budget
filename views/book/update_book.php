@@ -4,14 +4,24 @@
                         <div class="card-header">
                                 Budget
                         </div>
-                        <?php
-                                echo isset($_SESSION['msg']) ? $_SESSION['msg'] : "";
-                                unset($_SESSION['msg']);
-                        ?>
-                        <div class="card-body">
-                                <h5 class="card-title"><a style="text-decoration:none" href="/">View books</a> / <?php echo $edit; ?>></h5>
                                 
-                                <form method="POST" action="./p/newbook.php" class="my-login-validation" novalidate="">
+                        <?php
+                        if (is_array($error))
+                        {
+                                echo "<div class = 'alert alert-danger' role = 'alert'><strong>";
+                                foreach ($error as $err)
+                                {
+                                        echo $err.'<br>';
+                                }
+                                unset($error);
+                                echo "</strong></div>";
+                        }
+                        ?>
+                                        
+                        <div class="card-body">
+                                <h5 class="card-title"><a style="text-decoration:none" href="<?php echo $view_book; ?>">View book</a> / <?php echo $edit; ?></h5>
+                                
+                                <form method="POST" action="<?php echo $form_action; ?>" class="my-login-validation" novalidate="">
                                         <div class="form-group">
                                                 <input id="book-id" type="" class="form-control" name="book-id" value= "<?php echo $book_id;?>" hidden>
                                                 <label for="book-name">Book Name</label>

@@ -36,7 +36,7 @@
                          $rbook = http_build_query($book);
                     ?>
                     <p>
-                        <a href="book/add?<?php echo $rbook;?>"><button class="btn btn-outline-primary">Edit Book</button></a>
+                        <a href="/book/edit?<?php echo $rbook;?>"><button class="btn btn-outline-primary">Edit Book</button></a>
                         <a href="transaction.php?book=<?php echo $book_id;//.'&type='.$rdata['category_id'];?>"><button class="btn btn-outline-success">Log Transaction</button></a>
                         <a href="delete.php?book=<?php echo $book_id;?>">
                         <button onclick="return confirm('You\'re trying to delete an entire book. All tran$transactions and recorded transaction will be deleted, continue?')" 

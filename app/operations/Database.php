@@ -1,5 +1,5 @@
 <?php
-namespace app;
+namespace app\operations;
 use PDO;
 /**
  * Database - Handles repetitive actions done on database
@@ -11,31 +11,46 @@ class Database
     private $dbUser = NULL;
     private $dbPassword = NULL;
     private $dbName = NULL;
+    public static ? Database $dbs = null;
 
     /**
      * __construct - Initialize Database connection parameters
      */
-    public function __construct($dbHost, $dbUser, $dbPassword, $dbName)
+    public function __construct()
+    {
+        $dbHost = __DB_HOST__;
+        $dbUser =__DB_USER__;
+        $dbPassword =__DB_PASSWORD__;
+        $dbName = __DB_NAME__;
+        try{
+            $this->conn = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser,  $dbPassword);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        catch(\PDOException $err){
+            return null;
+        }
+        self::$dbs = $this;
+    }
+
+    /**
+     * dbConnect - Connect to another database
+     */
+    public function dbConnect($dbHost, $dbUser, $dbPassword, $dbName)
     {
         $this->dbHost = $dbHost;
         $this->dbUser = $dbUser;
         $this->dbPassowrd = $dbPassword;
         $this->dbName = $dbName;
-    }
 
-    /**
-     * dbConnect - Connect to the database
-     */
-    public function dbConnect()
-    {
         try{
             $this->conn = new PDO("mysql:host=$this->dbHost;dbname=$this->dbName", $this->dbUser, $this->dbPassword);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $this->conn;
         }
         catch(\PDOException $err){
-            echo "Connection failed: ". $err->getMessage();
+            return null;
         }
+        self::$dbs = $this;
     }
     /**
      * dbGetData - get row(s) from one or more tables
@@ -107,8 +122,8 @@ class Database
         }
         $phs = implode(", ", $phs);
         $query .= $phs.")";
-        echo $query;
-        //exit;
+        // echo $query;
+        // exit;
         try{
             $q = $this->conn->prepare($query);
             $q->execute($values);
