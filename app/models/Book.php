@@ -16,6 +16,7 @@ class Book extends Database
         public function __construct(Database $db, array $columns = null)
         {
                 $this->conn = $db->conn;
+                if ($columns)
                 $this->book_id = (int) $columns['book_id'] ?? null;
                 $this->user_id = (int) $columns['user_id'] ?? null;
                 $this->book_name = $columns['book_name'] ?? null;
@@ -57,13 +58,13 @@ class Book extends Database
                 if (!$this->book_desc) $error[] = "Book desc is required";
                 if (!empty($error)) return $error;
 
-                if (!$this->idExist($this->book_id, $this->user_id)) $error[] = "Book does not exist";
+                if (!$this->idExist()) $error[] = "Book does not exist";
                 if (!empty($error)) return $error;
 
                 $error = $this->validateColumns();
                 if (!empty($error)) return $error;
 
-                if ($this->nameExist($this->book_name, $this->user_id)) $error[] = "Duplicate name detected";
+                if ($this->nameExist()) $error[] = "Duplicate name detected";
                 if (!empty($error)) return $error;
 
                 $updated = $this->updateData('`books`', ['`book_name` = :bk_name', '`book_desc` = :bk_desc'], 
@@ -74,28 +75,41 @@ class Book extends Database
                         ':bk_id' => $this->book_id,
                         ':uid' => $this->user_id
                 ]);
-                
+
                 if ($updated) return true;
                 else return ["Oops! We're experiencing technical issues"];
         }
 
-        public function nameExist(string $book_name, int $user_id)
+        public function deleteBook()
+        {
+                $error = [];
+                if (!$this->book_id) $error[] = "No book was deleted";
+                if (!empty($error)) return $error;
+                if (!$this->idExist()) $error[] = "Book does not exist";
+                if (!empty($error)) return $error;
+
+                $deleted = $this->deleteData('`books`', ['`book_id` = :bk_id', '`user_id` = :uid'], [':bk_id' => $this->book_id, ':uid' => $this->user_id]);
+                if ($deleted != false) return (int) $deleted;
+                else return false;
+        }
+
+        public function nameExist()
         {
                 $exist = $this->dbGetData(['`book_id`'], '`books`', null, [
                         '`book_name`' => ':bk_name',
                         '`user_id`' =>':uid'
                 ],[
-                        ':bk_name' => $book_name,
-                        ':uid' => $user_id
+                        ':bk_name' => $this->book_name,
+                        ':uid' => $this->user_id
                 ]);
-                if ($exist) return true;
+                if ($exist) return $exist[0];
                 else return false;
         }
 
-        public function idExist(int $book_id, int $user_id)
+        public function idExist()
         {
-                $exist = $this->dbGetData(['`book_name`'], '`books`', null, ['`book_id`' => ':bk_id', '`user_id`' =>':uid'], [':bk_id' => $book_id, ':uid' => $user_id]);
-                if ($exist) return true;
+                $exist = $this->dbGetData(['`book_name`'], '`books`', null, ['`book_id`' => ':bk_id', '`user_id`' =>':uid'], [':bk_id' => $this->book_id, ':uid' => $this->user_id]);
+                if ($exist) return $exist[0];
                 else return false;
         }
 

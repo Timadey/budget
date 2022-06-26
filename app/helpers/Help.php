@@ -24,13 +24,13 @@ class Help
          */
         public static function alert (string $msg, int $status)
         {
-                if ($status == 0)
+                if ($status === 0)
                 {
-                        return ("<div class = 'alert alert-danger' role = 'alert'><strong>".$msg."</strong></div>");
+                        return ("<div class = 'alert alert-danger' role = 'alert'><strong>$msg</strong></div>");
                 }
-                else if ($status == 1)
+                else if ($status === 1)
                 {
-                        return ("<div class = 'alert alert-success' role = 'alert'><strong>".$msg."</strong></div>");
+                        return ("<div class = 'alert alert-success' role = 'alert'><strong>$msg</strong></div>");
                 }
         }   
 }

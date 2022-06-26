@@ -5,10 +5,14 @@
                     Transactions
                 </div>
                 <div class="card-body">
+                <?php
+                    echo ($_SESSION['msg']) ?? "";
+                    unset($_SESSION['msg']);
+                ?>
                     <h5 class="card-title"><?php echo $book['book_name'];?></h5> 
                     <p class="card-text">No transaction found in this book. <br> Log a new transaction in this book to view it.</p>
                     <a href="transaction.php?book=<?php echo $book_id;//.'&type='.$rdata['category_id'];?>" class="btn btn-outline-primary">Log a transaction</a>
-                    <a href="delete.php?book=<?php echo $book_id;?>">
+                    <a href="/book/delete?book=<?php echo $book_id;?>">
                         <button onclick="return confirm('You\'re trying to delete an entire book. All data and recorded transaction will be deleted, continue?')" 
                         class="btn btn-outline-danger">Delete</button>
                     </a>
@@ -24,21 +28,22 @@
                     Transactions
                 </div>
                 <?php
-                    echo isset($_SESSION['msg']) ? $_SESSION['msg'] : "";
+                    echo ($_SESSION['msg']) ?? "";
                     unset($_SESSION['msg']);
                 ?>
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $book['book_name'];?></h5>
                     <!-- <p><?php //echo $rdata['category_id'] == 1 ? "Income" : "Expenditure" ;?></p> -->
-                    <p><?php echo $book['book_desc'];?></p>
+                    <p><?php echo $transactions[0]['book_desc'];?></p>
                     <?php
                          $book['book_id'] = $book_id;
+                         $book['book_desc'] = $transactions[0]['book_desc'];
                          $rbook = http_build_query($book);
                     ?>
                     <p>
                         <a href="/book/edit?<?php echo $rbook;?>"><button class="btn btn-outline-primary">Edit Book</button></a>
                         <a href="transaction.php?book=<?php echo $book_id;//.'&type='.$rdata['category_id'];?>"><button class="btn btn-outline-success">Log Transaction</button></a>
-                        <a href="delete.php?book=<?php echo $book_id;?>">
+                        <a href="/book/delete?book=<?php echo $book_id;?>">
                         <button onclick="return confirm('You\'re trying to delete an entire book. All tran$transactions and recorded transaction will be deleted, continue?')" 
                         class="btn btn-outline-danger">Delete</button></a>
                     </p>

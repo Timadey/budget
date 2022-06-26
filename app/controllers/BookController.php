@@ -44,25 +44,16 @@ class BookController
                         $book_id = Help::clean($_GET['book']);
 
                         /** check if book exist */
-                        $col = array ("`book_name`", "`book_desc`");
-                        $table = "`books`";
-                        $where = array ('`books`.`book_id`' => ':book_id', '`books`.`user_id`' => ':user_id');
-                        $val = array (':book_id' => $book_id, ':user_id' => $_SESSION['user_id']);
-                        try
-                        {
-                                $book = $router->dbs->dbGetData($col, $table, null, $where, $val);
-                        }
-                        catch(Exception $err)
-                        {
-                                $_SESSION['msg'] = alert("oops! We're experiencing technical issue at the moment", 0);
-                        }
-                    
-                        if ($book == null){
-                                echo $router->renderView("404", ['page_title' => 'Page not found']);
+                        $book = new Book($router->dbs, ['book_id' => $book_id, 'user_id' => $_SESSION['user_id']]);
+                        $exist = $book->idExist();
+                        
+                        if ($exist === false){
+                                echo $router->renderView("404", ['page_title' => 'Book doesn\'t exist']);
                                 exit();
                         };
-                        $book = $book[0];
+                        $book = $exist;
 
+                        /** check load transaction for the book */
                         $table = "`transactions`";
                         $join = array ('`books`' => '`book_id`', '`sub_category`' => '`sub_category_id`');
                         $where = array ('`books`.`book_id`' => ':book_id', '`books`.`user_id`' => ':user_id');//, '`sub_category`.`category_id`' => ':book_type');
@@ -75,7 +66,7 @@ class BookController
                         {
                                 $_SESSION['msg'] = alert("oops! We're experiencing technical issue at the moment", 0);
                         };
-
+                        
                         echo $router->renderView('book/view_book',
                         [
                                 'page_title' => $book['book_name'],
@@ -180,6 +171,34 @@ class BookController
                         'button_name' => 'add-book',
                         'button_label' => 'Add Book'
                 ]);
+        }
+
+        public static function deleteBook(Router $router)
+        {
+                if (isset($_GET['book']))
+                {
+                        $book_id = $_GET['book'];
+
+                        $book = new Book ($router->dbs, ['book_id' => $book_id, 'user_id' => $_SESSION['user_id']]);
+                        $deleted = $book->deleteBook();
+                        if (is_int($deleted))
+                        {
+                                $_SESSION['msg'] = Help::alert("Book deleted successfully", 1);
+                                return header("Location: /");
+                        }
+                        else if ($deleted === false)
+                        {
+                                $_SESSION['msg'] = Help::alert("Oops! We are experiencing technical issues", 0);
+                                return header("Location: /book/?book=$book_id");
+                        }
+                        else
+                        {
+                                $_SESSION['msg'] = Help::alert($deleted[0], 0);
+                                return header("Location: /");
+                        }
+
+                }
+                else return header("Location: /");
         }
 }
 ?>

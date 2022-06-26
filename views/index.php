@@ -5,6 +5,11 @@ if (is_array($data) && !empty($data)){
                 <div class="card-header">
                         Budget
                 </div>
+
+                <?php
+                echo ($_SESSION['msg']) ?? "";
+                unset($_SESSION['msg']);
+                ?>
                 <div class="card-body">
                         <h5 class="card-title">Income and Expenditure</h5>
                         <table class="table table-hover">

@@ -6,6 +6,8 @@
                         </div>
                                 
                         <?php
+                         echo ($_SESSION['msg']) ?? "";
+                         unset($_SESSION['msg']);
                         if (is_array($error))
                         {
                                 echo "<div class = 'alert alert-danger' role = 'alert'><strong>";
