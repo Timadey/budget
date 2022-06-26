@@ -16,8 +16,8 @@ class Book extends Database
         public function __construct(Database $db, array $columns = null)
         {
                 $this->conn = $db->conn;
-                $this->book_id = $columns['book_id'] ?? null;
-                $this->user_id = $columns['user_id'] ?? null;
+                $this->book_id = (int) $columns['book_id'] ?? null;
+                $this->user_id = (int) $columns['user_id'] ?? null;
                 $this->book_name = $columns['book_name'] ?? null;
                 $this->book_desc = $columns['book_desc'] ?? null;
                 $this->book_date = $columns['book_date'] ?? null;
@@ -47,6 +47,36 @@ class Book extends Database
                 if (!$last_inserted) return null;
                 $this->clear();
                 return (int)$last_inserted;
+        }
+
+        public function editBook()
+        {
+                $error = [];
+                if (!$this->book_id) $error[] = "Select a book to edit first";
+                if (!$this->book_name) $error[] = "Book name is required";
+                if (!$this->book_desc) $error[] = "Book desc is required";
+                if (!empty($error)) return $error;
+
+                if (!$this->idExist($this->book_id, $this->user_id)) $error[] = "Book does not exist";
+                if (!empty($error)) return $error;
+
+                $error = $this->validateColumns();
+                if (!empty($error)) return $error;
+
+                if ($this->nameExist($this->book_name, $this->user_id)) $error[] = "Duplicate name detected";
+                if (!empty($error)) return $error;
+
+                $updated = $this->updateData('`books`', ['`book_name` = :bk_name', '`book_desc` = :bk_desc'], 
+                ['`book_id` = :bk_id', '`user_id` = :uid'],
+                [
+                        ':bk_name' => $this->book_name,
+                        ':bk_desc' => $this->book_desc,
+                        ':bk_id' => $this->book_id,
+                        ':uid' => $this->user_id
+                ]);
+                
+                if ($updated) return true;
+                else return ["Oops! We're experiencing technical issues"];
         }
 
         public function nameExist(string $book_name, int $user_id)

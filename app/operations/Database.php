@@ -136,9 +136,9 @@ class Database
     /**
      * updateData - update a row in a table
      * @table: table to update 
-     * @set: an array of the columns to update and their placeholder
-     * @where: an array of the columns to intersect and their placeholder
-     * @values: an array containing the placeholder and value
+     * @set: a one dim array of the columns to update and their placeholder
+     * @where: a one dim array of the columns to intersect and their placeholder
+     * @values: an assoc array containing the placeholder and value
      * Return: true if successful or false otherwise
      */
     public function updateData(string $table, array $set, array $where, array $values)
@@ -153,6 +153,7 @@ class Database
         $where_list = implode(' AND ', $where);
         $query .=$where_list;
         //echo $query;
+        //exit;
         try{
             $q = $this->conn->prepare($query);
             $q->execute($values);

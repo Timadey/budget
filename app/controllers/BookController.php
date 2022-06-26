@@ -93,9 +93,8 @@ class BookController
          * addBook - RenderView for Book page
          * @Router: an instance of Router class
          */
-        public static function updateBook(Router $router)
+        public static function editBook(Router $router)
         {
-                $edit = false;
                 if (isset($_GET['book_name']) && isset($_GET['book_id']) && isset($_GET['book_desc']))
                 {
                         $book_name = Help::clean($_GET['book_name']);
@@ -103,38 +102,46 @@ class BookController
                         $book_desc = Help::clean($_GET['book_desc']);
                         $edit = "Edit ".$book_name;
 
-                        /** check if book exist */
-                        $col = array ("`book_name`", "`book_desc`");
-                        $table = "`books`";
-                        $where = array ('`books`.`book_id`' => ':book_id', '`books`.`user_id`' => ':user_id');
-                        $val = array (':book_id' => $book_id, ':user_id' => $_SESSION['user_id']);
-                        try
-                        {
-                                $book = $router->dbs->dbGetData($col, $table, null, $where, $val);
-                        }
-                        catch(Exception $err)
-                        {
-                                $_SESSION['msg'] = alert("oops! We're experiencing technical issue at the moment", 0);
-                        }
-                    
-                        if ($book == null){
-                                echo $router->renderView("404", ['page_title' => 'Page not found']);
-                                exit;
-                        };
                 }
+                else if (isset($_POST['edit-book']))
+                {
+                        $book_name = Help::clean($_POST['book-name']);
+                        $book_id = Help::clean($_POST['book-id']);
+                        $book_desc = Help::clean($_POST['book-desc']);
+                        $edit = "Edit ".$book_name;
+
+                        $book = new Book($router->dbs, [
+                                'user_id' => $_SESSION['user_id'],
+                                'book_name' => $book_name,
+                                'book_id' => $book_id,
+                                'book_desc' => $book_desc
+                        ]);
+                        $error = $book->editBook();
+
+                        if ($error === true)
+                        {
+                                header("Location: /book?book=$book_id");
+                                exit;
+                        }
+                }
+                else 
+                {
+                        header("Location: /book/add");
+                        exit;
+                };
                
                 echo $router->renderView('book/update_book', [
-                        'page_title' => $edit ?:'Add New Book',
-                        'edit' => $edit ?: 'Add New Book',
-                        'view_book' => $edit ? '/book?book='.$book_id : '/',
-                        'form_action' => $edit ? '/book/edit' : '/book/add',
+                        'page_title' => $edit,
+                        'edit' => $edit,
+                        'view_book' => '/book?book='.$book_id,
+                        'form_action' => '/book/edit',
                         'error' => $error??null,
-                        'book_id' => $edit ? $book_id : '',
-                        'book_name' => $edit ? $book_name : '',
-                        'book_desc' => $edit ? $book_desc : '',
-                        'button_id' => $edit ? 'btn-edit-book' : 'btn-add-book',
-                        'button_name' => $edit ? 'edit-book' : 'add-book',
-                        'button_label' => $edit ? 'Edit Book' : 'Add Book'
+                        'book_id' => $book_id,
+                        'book_name' => $book_name,
+                        'book_desc' => $book_desc,
+                        'button_id' => 'btn-edit-book',
+                        'button_name' => 'edit-book',
+                        'button_label' => 'Edit Book'
                 ]);
         }
         public static function addBook(Router $router)
@@ -167,8 +174,8 @@ class BookController
                         'form_action' => '/book/add',
                         'error' => $error??null,
                         'book_id' => '',
-                        'book_name' => $book_name,
-                        'book_desc' =>$book_desc,
+                        'book_name' => $book_name ?? '',
+                        'book_desc' =>$book_desc ?? '',
                         'button_id' => 'btn-add-book',
                         'button_name' => 'add-book',
                         'button_label' => 'Add Book'
