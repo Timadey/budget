@@ -3,7 +3,6 @@ namespace app\models;
 
 Use app\helpers\Validator;
 use app\operations\Database;
-use PDO;
 
 class Book extends Database
 {
@@ -13,17 +12,24 @@ class Book extends Database
         public ? string $book_desc = null;
         public ? string $book_date = null;
 
-        public function __construct(Database $db, array $columns = null)
+        public function __construct(Database $db, array $columns = [])
         {
                 $this->conn = $db->conn;
-                if ($columns)
-                $this->book_id = (int) $columns['book_id'] ?? null;
-                $this->user_id = (int) $columns['user_id'] ?? null;
+                $this->book_id = (int) ($columns['book_id'] ?? null);
+                $this->user_id = (int) ($columns['user_id'] ?? null);
                 $this->book_name = $columns['book_name'] ?? null;
                 $this->book_desc = $columns['book_desc'] ?? null;
                 $this->book_date = $columns['book_date'] ?? null;
-
                 parent::__construct();
+        }
+
+        public function load()
+        {
+                $where = array ('`user_id`' => ':user_id');
+                $value = array (':user_id' => $this->user_id);
+                $data = $this->dbGetData(null, "`books`", null, $where, $value); //implement order by date desc in database class
+
+                return $data;
         }
 
         public function addNewBook()

@@ -9,6 +9,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use app\router\Router;
 use app\controllers\BookController;
+use app\controllers\TransactionController;
 use app\operations\Database;
 use app\operations\Account;
 
@@ -19,16 +20,14 @@ $user = new Account ($dbs);
 $router = new Router($dbs);
 $router->get('/', [BookController::class, 'index']);
 $router->get('/book', [BookController::class, 'viewBook']);
-
 $router->get('/book/add', [BookController::class, 'addBook']);
 $router->post('/book/add', [BookController::class, 'addBook']);
-
 $router->get('/book/edit', [BookController::class, 'editBook']);
 $router->post('/book/edit', [BookController::class, 'editBook']);
-
 $router->get('/book/delete', [BookController::class, 'deleteBook']);
 
 $router->get('/transaction/edit', [TransactionController::class, 'editTransaction']);
 $router->get('/transaction/add', [TransactionController::class, 'addTransaction']);
+$router->post('/transaction/add', [TransactionController::class, 'addTransaction']);
 $router->resolve();
 ?>

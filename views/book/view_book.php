@@ -11,7 +11,7 @@
                 ?>
                     <h5 class="card-title"><?php echo $book['book_name'];?></h5> 
                     <p class="card-text">No transaction found in this book. <br> Log a new transaction in this book to view it.</p>
-                    <a href="transaction.php?book=<?php echo $book_id;//.'&type='.$rdata['category_id'];?>" class="btn btn-outline-primary">Log a transaction</a>
+                    <a href="transaction/add?book=<?php echo $book_id;?>" class="btn btn-outline-primary">Log a transaction</a>
                     <a href="/book/delete?book=<?php echo $book_id;?>">
                         <button onclick="return confirm('You\'re trying to delete an entire book. All data and recorded transaction will be deleted, continue?')" 
                         class="btn btn-outline-danger">Delete</button>
@@ -33,7 +33,6 @@
                 ?>
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $book['book_name'];?></h5>
-                    <!-- <p><?php //echo $rdata['category_id'] == 1 ? "Income" : "Expenditure" ;?></p> -->
                     <p><?php echo $transactions[0]['book_desc'];?></p>
                     <?php
                          $book['book_id'] = $book_id;
@@ -42,7 +41,7 @@
                     ?>
                     <p>
                         <a href="/book/edit?<?php echo $rbook;?>"><button class="btn btn-outline-primary">Edit Book</button></a>
-                        <a href="transaction.php?book=<?php echo $book_id;//.'&type='.$rdata['category_id'];?>"><button class="btn btn-outline-success">Log Transaction</button></a>
+                        <a href="transaction/add?book=<?php echo $book_id;?>"><button class="btn btn-outline-success">Log Transaction</button></a>
                         <a href="/book/delete?book=<?php echo $book_id;?>">
                         <button onclick="return confirm('You\'re trying to delete an entire book. All tran$transactions and recorded transaction will be deleted, continue?')" 
                         class="btn btn-outline-danger">Delete</button></a>
@@ -52,7 +51,6 @@
                             <tr>
                                 <th scope="col">S/N</th>
                                 <th scope="col">Amount</th>
-                                <!-- <th scope="col">Type</th> -->
                                 <th scope="col">Category</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Date</th>
@@ -64,7 +62,6 @@
                             <tr>
                                 <th scope="row"><?php echo $key+1 ?></th>
                                 <td <?php echo $transaction['category_id'] == 2 ? "style='color:red'":" style='color:green'";?>><?php echo "NGN ".$transaction['transaction_amount'];?></td>
-                                <?php //echo $transaction['type'] == 0 ?"<td style='color:red'>Debit</td>":"<td style='color:green'>Credit</td>";?>
                                 <td><?php echo $transaction['sub_category_name'];?></td>
                                 <td><?php echo $transaction['transaction_desc'];?></td>
                                 <td><?php echo $transaction['transaction_date'];?></td>

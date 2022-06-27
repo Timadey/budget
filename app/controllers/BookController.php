@@ -16,19 +16,10 @@ class BookController
          */
         public static function index(Router $router)
         {
-                try
-                {
-                        $where = array ('`user_id`' => ':user_id');
-                        $value = array (':user_id' => $_SESSION['user_id']);
-                        $data = $router->dbs->dbGetData(null, "`books`", null, $where, $value); //implement order by date desc in database class
-                }
-                catch(\PDOException $err)
-                {
-                        echo "Failed to load books: ".$err->getMessage();
-                };
-
+                $book = new Book ($router->dbs, ['user_id' => $_SESSION['user_id']]);
+                $data = $book->load();
                 echo $router->renderView('index', [
-                        'page_title' => 'Index',
+                        'page_title' => 'Books',
                         'data' => $data
                 ]);
         }
@@ -53,7 +44,7 @@ class BookController
                         };
                         $book = $exist;
 
-                        /** check load transaction for the book */
+                        /** load transaction for the book */
                         $table = "`transactions`";
                         $join = array ('`books`' => '`book_id`', '`sub_category`' => '`sub_category_id`');
                         $where = array ('`books`.`book_id`' => ':book_id', '`books`.`user_id`' => ':user_id');//, '`sub_category`.`category_id`' => ':book_type');

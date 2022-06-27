@@ -40,7 +40,11 @@
 
 
         <div class="container" style="padding-top:100px">
-            <?php echo $content; ?>
+            <?php 
+                echo ($_SESSION['msg']) ?? "";
+                unset($_SESSION['msg']);
+                echo $content; 
+            ?>
         </div>
 
 
