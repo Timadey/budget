@@ -26,8 +26,9 @@ $router->get('/book/edit', [BookController::class, 'editBook']);
 $router->post('/book/edit', [BookController::class, 'editBook']);
 $router->get('/book/delete', [BookController::class, 'deleteBook']);
 
-$router->get('/transaction/edit', [TransactionController::class, 'editTransaction']);
-$router->get('/transaction/add', [TransactionController::class, 'addTransaction']);
+$router->get('/transaction/addnew', [TransactionController::class, 'transactionType']);
+$router->get('/transaction/add', [TransactionController::class, 'buildTransactionForm']);
 $router->post('/transaction/add', [TransactionController::class, 'addTransaction']);
+$router->post('/transaction/edit', [TransactionController::class, 'editTransaction']);
 $router->resolve();
 ?>

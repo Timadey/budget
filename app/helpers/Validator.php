@@ -9,7 +9,10 @@ class Validator
                 {
                         if (!preg_match("/^[a-zA-Z- ']*$/", $text)) return false;
                         else return true;
-                }  
+                }
+                else {
+                        return false;
+                }
         }
 
         public static function isNumberValid ($num)

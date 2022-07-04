@@ -41,9 +41,9 @@
                     ?>
                     <p>
                         <a href="/book/edit?<?php echo $rbook;?>"><button class="btn btn-outline-primary">Edit Book</button></a>
-                        <a href="transaction/add?book=<?php echo $book_id;?>"><button class="btn btn-outline-success">Log Transaction</button></a>
+                        <a href="transaction/addnew?book=<?php echo $book_id;?>"><button class="btn btn-outline-success">Log Transaction</button></a>
                         <a href="/book/delete?book=<?php echo $book_id;?>">
-                        <button onclick="return confirm('You\'re trying to delete an entire book. All tran$transactions and recorded transaction will be deleted, continue?')" 
+                        <button onclick="return confirm('You\'re trying to delete an entire book. All transactions and recorded transaction will be deleted, continue?')" 
                         class="btn btn-outline-danger">Delete</button></a>
                     </p>
                     <table class="table table-hover">
@@ -68,14 +68,14 @@
                             
                                 <td>
                                     <span class="btn-group">
-                                        <form action="transaction.php" method="post">
+                                        <form action="transaction/edit" method="post">
                                             <input name="book-id" value="<?php echo $book_id;?>" hidden/>
                                             <input name="transaction-id" value="<?php echo $transaction['transaction_id'];?>" hidden/>
                                             <input name="sub-category-id" value="<?php echo $transaction['sub_category_id'];?>" hidden/>
                                             <input name="transaction-amount" value="<?php echo $transaction['transaction_amount'];?>" hidden/>
                                             <input name="transaction-desc" value="<?php echo $transaction['transaction_desc'];?>" hidden/>
                                             <input name="category-id" value="<?php echo $transaction['category_id'];?>" hidden/>
-                                            <button style="border:1px" class="btn btn-outline-primary" type="submit" name="edit-transaction">Edit</button>
+                                            <button style="border:1px" class="btn btn-outline-primary" type="submit" name="edit-transaction-form">Edit</button>
                                         </form>
                                     </span>
                                 </td>
