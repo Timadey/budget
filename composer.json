@@ -2,7 +2,7 @@
     "name": "timothy/income-and-expenditure",
     "autoload": {
         "psr-4": {
-            "app\\": "./app"
+            "app\\": "app/"
         }
     },
     "authors": [
