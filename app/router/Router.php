@@ -45,7 +45,7 @@ class Router
                 
         }
 
-        public function renderView ($view, $params = [])
+        public function renderView ($view, $params = [], $layout = 'layouts/layout' )
         {
                 // echo '<pre>';
                 // var_dump($_SERVER);
@@ -58,7 +58,7 @@ class Router
                 ob_start();
                 include_once __DIR__."/../../views/$view.php";
                 $content = ob_get_clean();
-                include_once __DIR__."/../../views/layouts/layout.php";
+                include_once __DIR__."/../../views/$layout.php";
         }
 }
 ?>

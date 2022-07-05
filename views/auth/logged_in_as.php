@@ -1,7 +1,3 @@
-<?php 
-$page_title = "Login";
-include_once "login-header.php";?>
-
 <body class="my-login-page">
 	<section class="h-100">
 		<div class="container h-100">
@@ -16,18 +12,16 @@ include_once "login-header.php";?>
 							<h4 class="card-title">You are logged in as <?php echo $_SESSION["name"].'('.$_SESSION['email'].')';?></h4>
 							
 								<div class="form-group m-0">
-									<a href= "../index.php"><button type="submit" class="btn btn-primary btn-block" id = "proceed-to-mismatch" name = "go-to-home">
+									<a href= "/"><button type="submit" class="btn btn-primary btn-block" id = "proceed-to-mismatch" name = "go-to-home">
 										Continue using Budget
 									</button></a>
 								</div>
                                 <div class="mt-4 text-center">
-									Not <?php echo $_SESSION["name"];?>? <a href="../logout.php">Log in</a>
+									Not <?php echo $_SESSION["name"];?>? <a href="/logout">Log in</a>
 								</div>
 								<div class="mt-4 text-center">
-									Don't have an account? <a href="../logout.php">Create One</a>
+									Don't have an account? <a href="/logout">Create One</a>
 								</div>
 							</form>
 						</div>
 					</div>
-
-<?php include_once "login-footer.php";?>

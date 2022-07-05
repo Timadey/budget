@@ -30,9 +30,9 @@
                     </ul>
 
                     <?php echo !isset($_SESSION['user_id']) ? "<div class='text-end'>
-                        <a href='authenticate/login.php'><button type='button' class='btn btn-outline-dark me-2'>Login</button></a>
-                        <a href='authenticate/signup.php'><button type='button' class='btn btn-outline-primary me-2'>Sign-up</button></a></div>" : $_SESSION['email'].
-                        "<a href='logout.php' class='nav-link px-2 text-danger'>(Logout)</a></div>";
+                        <a href='/login'><button type='button' class='btn btn-outline-dark me-2'>Login</button></a>
+                        <a href='/register'><button type='button' class='btn btn-outline-primary me-2'>Sign-up</button></a></div>" : $_SESSION['email'].
+                        "<a href='/logout' class='nav-link px-2 text-danger'>(Logout)</a></div>";
                     ?>
                 </div>
             </div>

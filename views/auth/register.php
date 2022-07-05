@@ -1,20 +1,3 @@
-<?php
-$page_title = "Register";
-include_once "login-header.php";
-session_start();
-
-if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION['name'])){
-	include_once "logged_in_as.php";
-	exit();
-}else if (isset($_COOKIE['user_id']) && isset($_COOKIE['email']) && isset($_COOKIE['name'])){
-	$_SESSION['user_id'] = $_COOKIE['user_id'];
-	$_SESSION['email'] = $_COOKIE['email'];
-	$_SESSION['name'] = $_COOKIE['name'];
-	include_once "logged_in_as.php";
-	exit();
-};
-?>
-
 <body class="my-login-page">
 	<section class="h-100">
 		<div class="container h-100">
@@ -28,22 +11,31 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION[
 						<div class="card-body">
 							<h4 class="card-title">Register</h4>
 							<?php
-								echo isset($_SESSION['msg']) ? 
-								"<div class = 'alert alert-danger' role = 'alert'>".$_SESSION['msg']."</div>" : "";
-								unset($_SESSION['msg']);
-							?>
-							<form method="POST" action="../p/signup.php" class="my-login-validation" novalidate="">
+                                                                echo ($_SESSION['msg']) ?? "";
+                                                                unset($_SESSION['msg']);
+                                                                if (is_array($error))
+                                                                {
+                                                                        echo "<div class = 'alert alert-danger' role = 'alert'><strong>";
+                                                                        foreach ($error as $err)
+                                                                        {
+                                                                                echo $err.'<br>';
+                                                                        }
+                                                                        unset($error);
+                                                                        echo "</strong></div>";
+                                                                }
+                                                        ?>
+							<form method="POST" action="/register" class="my-login-validation" novalidate="">
 								<div class="form-group">
 									<label for="name">First Name</label>
-									<input id="name" type="text" class="form-control" name="first-name" required autofocus>
+									<input id="name" type="text" class="form-control" name="first-name" value = "<?php echo $first_name?>" required autofocus>
 									<div class="invalid-feedback">
 										First name is needed
 									</div>
 								</div>
 
-                                <div class="form-group">
+                                                                <div class="form-group">
 									<label for="name">Last Name</label>
-									<input id="name" type="text" class="form-control" name="last-name" required autofocus>
+									<input id="name" type="text" class="form-control" name="last-name" value = "<?php echo $last_name?>" required autofocus>
 									<div class="invalid-feedback">
 										Last name is needed
 									</div>
@@ -51,7 +43,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION[
 
 								<div class="form-group">
 									<label for="email">E-Mail Address</label>
-									<input id="email" type="email" class="form-control" name="email" required>
+									<input id="email" type="email" class="form-control" name="email" value = "<?php echo $email?>" required>
 									<div class="invalid-feedback">
 										Your email is invalid
 									</div>
@@ -81,10 +73,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['email']) && isset($_SESSION[
 									</button>
 								</div>
 								<div class="mt-4 text-center">
-									Already have an account? <a href="login.php">Login</a>
+									Already have an account? <a href="/login">Login</a>
 								</div>
 							</form>
 						</div>
 					</div>
-
-	<?php include_once "login-footer.php";?>

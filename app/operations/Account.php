@@ -48,30 +48,21 @@ class Account
    */
   public function addAccount($first_name, $last_name, $email, $password)
   {
+    $error = [];
     $name = $first_name.' '.$last_name;
     try
     {
       /** check if input is valid */
       if (!$this->isNameValid($first_name, 3, 10))
-      {
-        $_SESSION['msg'] = alert("Name must be greater than 3 and less than 10", 0);
-        return (false);
-      }
+        $error[] = "Name must contain only character of length greater than 3 and less than 10";
       if (!$this->isNameValid($last_name, 3, 10))
-      {
-        $_SESSION['msg'] = alert("Name must be greater than 3 and less than 10", 0);
-        return (false);
-      }
+        $error[] = "Name must contain only character of length greater than 3 and less than 10";
       if (!$this->isEmailValid($email))
-      {
-        $_SESSION['msg'] = alert("Invalid Email", 0);
-        return (false);
-      }
+        $error[] = "Invalid Email";
       if (!$this->isPasswordValid($password))
-      {
-        $_SESSION['msg'] = alert("Password must be greater than 7 characters", 0);
-        return (false);
-      }
+        $error[] = "Password must be greater than 7 characters";
+
+      if (!empty($error)) return $error;
 
       /** check if user exist */
       $col = array('`user_id`');
@@ -79,11 +70,10 @@ class Account
       $value = array(':email' => $email);
       $exist = $this->db->dbGetData($col, "`users`", null, $where, $value);
       if (is_array($exist) && !empty($exist))
-      {
-        $_SESSION['msg'] = alert("Email already exist, please login", 0);
-        return (false);
-      }
-      
+        $error[] = "Email already exist, please login";
+
+      if (!empty($error)) return $error;
+
       /** user doesn't exist, insert into users table */
       $table = "`users`";
       $columns = array ("`first_name`", "`last_name`", "`email`", "`password`");
@@ -96,19 +86,13 @@ class Account
       );
       $register = $this->db->insertData($table, $columns, $values);
       if ($register > 0)
-      {
-        $_SESSION['msg'] = alert("Registration Successful. Please Login", 1);
         return($register); 
-      }
       else
-      {
-        $_SESSION['msg'] = alert("Oops! Registration failed due to technical reasons", 0);
-        return (false);
-      }
+        return ["Oops! Registration failed due to technical reasons"];
     }
     catch(\Exception $err)
     {
-      return (-1);
+      return ["Oops! Registration failed due to technical reasons"];
     };
   }
   /**
@@ -119,42 +103,40 @@ class Account
    */
   public function login($email, $password) 
   {
+    $error = [];
     try{
       if ($this->uid != NULL && $this->login != false) { return (1); }
-      if (!$this->isEmailValid($email)) 
-      {
-        $_SESSION['msg'] = alert("Invalid Email", 0);
-        return (false);
-      }
+      if (!$this->isEmailValid($email)) $error[] = "Invalid email";
+      if (!empty($error)) return $error;
 
       $where = array('`email`' => ':email');
       $value = array(':email' => $email);
       $user = $this->db->dbGetData(null, '`users`', null, $where, $value);
-      $user = $user[0];
+      
       if (is_array($user) && !empty($user)){
+        $user = $user[0];
         if (password_verify($password, $user['password'])){
           $this->uid = $user['user_id'];
           $this->uname = $user['first_name'].' '.$user['last_name'];
           $this->email = $user['email'];
           $this->login = true;
 
-          echo "<script>alert('Login successful');</script>";
           return (true);
         }else
         {
-          $_SESSION['msg'] = alert("Incorrect Password", 0);
-          return (false);
+          $error[] = "Incorrect password";
+          return ($error);
         }
       }
       else
       {
-        $_SESSION['msg'] = alert("User does not exist", 0);
-        return (false);
+        $error[] = "User doesn't exist";
+        return $error;
       }
       
     }
     catch(\Exception $err){
-      //catch \exception
+      return ["Oops! We're experiencing technical issues"];
     }
   }
   /**

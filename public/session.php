@@ -1,15 +1,16 @@
 <?php
 //dont touch
-session_start();
 if (!isset($_SESSION['user_id']) && !isset($_SESSION['email']) && !isset($_SESSION['name'])){
     if (isset($_COOKIE['user_id']) && isset($_COOKIE['email']) && isset($_COOKIE['name'])){
         $_SESSION['user_id'] = $_COOKIE['user_id'];
         $_SESSION['email'] = $_COOKIE['email'];
         $_SESSION['name'] = $_COOKIE['name'];
-        include_once "authenticate/logged_in_as.php";  
-    }else{
-        header("Location: authenticate/login.php");
-    };
+        echo $router->renderView("auth/logged_in_as",['page_title' => 'You are logged in'], 'layouts/auth_layout');
+    }
+    else 
+    {
+        echo header("Location: /login");
+    }
 }else{
     if (!isset($_COOKIE['user_id']) && !isset($_COOKIE['email']) && !isset($_COOKIE['name'])){
         setcookie('user_id', $_SESSION['user_id'], time()+(60 * 60 * 24 * 2));

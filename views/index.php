@@ -44,7 +44,7 @@ if (is_array($data) && !empty($data)){
                 <div class="card-body">
                         <h5 class="card-title">Income and Expenditure</h5>
                         <p class="card-text">Record and keep tracks of your expensese. <br> Open <em>a new book</em> to start using <b>Budget</b></p>
-                        <a href="newbook.php" class="btn btn-primary">Open a New Book</a>
+                        <a href="/book/add" class="btn btn-primary">Open a New Book</a>
                 </div>
                 <div class="card-footer text-muted">
                         © 2022
