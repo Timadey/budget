@@ -55,7 +55,7 @@ class BookController
                         }
                         catch(Exception $err)
                         {
-                                $_SESSION['msg'] = alert("oops! We're experiencing technical issue at the moment", 0);
+                                $_SESSION['msg'] = help::alert("oops! We're experiencing technical issue at the moment", 0);
                         };
                         
                         echo $router->renderView('book/view_book',

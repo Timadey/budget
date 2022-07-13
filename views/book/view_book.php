@@ -11,7 +11,7 @@
                 ?>
                     <h5 class="card-title"><?php echo $book['book_name'];?></h5> 
                     <p class="card-text">No transaction found in this book. <br> Log a new transaction in this book to view it.</p>
-                    <a href="transaction/add?book=<?php echo $book_id;?>" class="btn btn-outline-primary">Log a transaction</a>
+                    <a href="transaction/addnew?book=<?php echo $book_id;?>" class="btn btn-outline-primary">Log a transaction</a>
                     <a href="/book/delete?book=<?php echo $book_id;?>">
                         <button onclick="return confirm('You\'re trying to delete an entire book. All data and recorded transaction will be deleted, continue?')" 
                         class="btn btn-outline-danger">Delete</button>

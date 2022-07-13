@@ -11,19 +11,17 @@
 						<div class="card-body">
 							<h4 class="card-title">Login</h4>
 							<?php
-                                                                echo ($_SESSION['msg']) ?? "";
-                                                                unset($_SESSION['msg']);
-                                                                if (is_array($error))
-                                                                {
-                                                                        echo "<div class = 'alert alert-danger' role = 'alert'><strong>";
-                                                                        foreach ($error as $err)
-                                                                        {
-                                                                                echo $err.'<br>';
-                                                                        }
-                                                                        unset($error);
-                                                                        echo "</strong></div>";
-                                                                }
-                                                        ?>
+								if (is_array($error))
+								{
+										echo "<div class = 'alert alert-danger' role = 'alert'><strong>";
+										foreach ($error as $err)
+										{
+												echo $err.'<br>';
+										}
+										unset($error);
+										echo "</strong></div>";
+								}
+							?>
 							<form method="POST" action="/login" class="my-login-validation" id="login-form" novalidate="">
 								<div class="form-group">
 									<label for="email">E-Mail Address</label>

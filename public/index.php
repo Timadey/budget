@@ -1,8 +1,15 @@
 <?php
+ini_set("display_errors", 1);
+ini_set("display_startup_errors", 1);
+error_reporting(E_ALL);
 session_start();
-// $_SESSION['user_id'] = 6;
-// $_SESSION['email'] = 'tim@budget.com';
-// $_SESSION['name'] = "Timothy";
+// echo '<pre>';
+// var_dump ($_SERVER);
+// echo "</pre>"; exit;
+
+//  $_SESSION['user_id'] = 6;
+//  $_SESSION['email'] = 'tim@budget.com';
+//  $_SESSION['name'] = "Timothy";
 
 require_once __DIR__.'/../config/config.php';
 require_once __DIR__.'/../vendor/autoload.php';
@@ -26,14 +33,16 @@ $router->post('/login', [AuthController::class, 'auth']);
 $router->post('/register', [AuthController::class, 'auth']);
 $router->get('/logout', [AuthController::class, 'logout']);
 
+
+
 $auth = ['/login', '/register', '/logout'];
 if (in_array($_SERVER['REQUEST_URI'], $auth))
 {
         $router->resolve();
         exit;
 }
-require_once __DIR__.'/session.php';
 
+require_once __DIR__.'/session.php';
 
 $router->get('/', [BookController::class, 'index']);
 $router->get('/book', [BookController::class, 'viewBook']);

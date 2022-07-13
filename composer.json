@@ -1,5 +1,5 @@
 {
-    "name": "timothy/income-and-expenditure",
+    "name": "timothy/budget.tim",
     "autoload": {
         "psr-4": {
             "app\\": "app/"

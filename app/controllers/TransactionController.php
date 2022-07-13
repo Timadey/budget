@@ -86,9 +86,9 @@ class TransactionController
                 if (isset($_POST['log-transaction']))
                 {
                         $book_id = Help::clean($_POST['book-id']);
-                        $amount = Help::clean($_POST['amount']);
-                        $sub_category_id = Help::clean($_POST['sub-category']);
-                        $desc = Help::clean($_POST['description']);
+                        $amount = Help::clean($_POST['transaction-amount']);
+                        $sub_category_id = Help::clean($_POST['sub-category-id']);
+                        $desc = Help::clean($_POST['transaction-desc']);
                         $category_id = Help::clean($_POST['category-id']);
 
                         
@@ -131,7 +131,7 @@ class TransactionController
                                 'transaction_desc' => $desc
                         ]);
                         $error = $transaction->addTransaction();
-
+                        
                         if (is_array($error))
                         {
                                 echo $router->renderView('transaction/update_transaction', [
