@@ -8,7 +8,7 @@
 
 ## Features
 
-* Authentication<
+* Authentication
 * Create multiple accounts or books
 * Record Income
 * Record Expense
