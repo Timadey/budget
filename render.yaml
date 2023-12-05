@@ -1,5 +1,6 @@
 services:
   - name: php
+    type: web
     buildCommand: ""
     buildPath: ./Dockerfile
     useDocker: true
@@ -27,6 +28,7 @@ services:
       - db
 
   - name: db
+    type: web
     image: "mysql:5.7"
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
