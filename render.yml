@@ -1,0 +1,57 @@
+services:
+  - name: php
+    buildCommand: ""
+    buildPath: ./Dockerfile
+    useDocker: true
+    image: ""
+    env:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: budget
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DB_HOST: db
+    startCommand: ""
+    httpPort: 8085
+    privatePorts:
+      - 80
+    environment: []
+    envVars: []
+    secretEnvVars: []
+    healthCheckPath: ""
+    healthCheckPort: 0
+    healthCheckCommand: ""
+    healthCheckType: ""
+    volumes:
+      - ".:/var/www/html"
+    dependsOn:
+      - db
+
+  - name: db
+    image: "mysql:5.7"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: budget
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DB_HOST: localhost
+    startCommand: ""
+    httpPort: 0
+    privatePorts: []
+    environment: []
+    buildCommand: ""
+    buildPath: ""
+    useDocker: true
+    envVars:
+      - key: ""
+        value: ""
+    secretEnvVars:
+      - key: ""
+        name: ""
+    healthCheckPath: ""
+    healthCheckPort: 0
+    healthCheckCommand: ""
+    healthCheckType: ""
+    ports:
+      - "3307:3306"
+    volumes:
+      - "/docker-entrypoint-initdb.d/budget.sql:/budget.sql"
