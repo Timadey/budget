@@ -16,17 +16,21 @@
 
 ## Techonologies used
 
-Languages 
+Languages and Tools
+* `Docker`
 * `PHP`
 * `MYSQL`
 * `HTML` 
 * `CSS`
 * `JS`
-
 Dependency Manager
 * `composer`
 
-## Configuration
+## Deployment
+RUN `docker-compose build & docker-compose up`
+
+## Live Test
+The application is live at budgetim.onrender.com
 
 ### Database Structure
 
@@ -78,5 +82,3 @@ A [`budget.sql file`](budget.sql) is availabe at the root of this repo.
 * Delete the `category_id` column in `books` table
 * Rename the `type` column in `transactions` table to `category_id` or simply create a new `category_id` column and delete `type` -->
 <br>
-<!-- ## Live Test
-Coming soon... -->

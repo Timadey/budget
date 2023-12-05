@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  php:
+    build: .
+    ports:
+      - "8085:80"
+    depends_on:
+      - db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: budget
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DB_HOST: db
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: budget
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DB_HOST: localhost
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./budget.sql:/docker-entrypoint-initdb.d/budget.sql

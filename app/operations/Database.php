@@ -18,13 +18,16 @@ class Database
      */
     public function __construct()
     {
-        $dbHost = __DB_HOST__;
-        $dbUser =__DB_USER__;
-        $dbPassword =__DB_PASSWORD__;
-        $dbName = __DB_NAME__;
+        $dbHost = getenv("MYSQL_DB_HOST");
+        $dbUser = getenv("MYSQL_USER");
+        $dbPassword = getenv("MYSQL_PASSWORD");
+        $dbName = getenv("MYSQL_DATABASE");
+        
         try{
             // $this->conn = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser,  $dbPassword);
-            $this->conn = new PDO("mysql:host=localhost;dbname=budget", 'root',  'password');
+            // $this->conn = new PDO("mysql:host=localhost;dbname=budget", "root",  "password");
+            $this->conn = new PDO("mysql:host=db;dbname=budget", "user",  "password");
+
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         catch(\PDOException $err){
@@ -40,7 +43,7 @@ class Database
     {
         $this->dbHost = $dbHost;
         $this->dbUser = $dbUser;
-        $this->dbPassowrd = $dbPassword;
+        $this->dbPassword = $dbPassword;
         $this->dbName = $dbName;
 
         try{
@@ -233,4 +236,3 @@ class Database
 // $dbs->insertData($fr, $col, $wh);
 ###########################################################################  
 ?>
-
