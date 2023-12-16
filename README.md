@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=200px height=200px src="https://www.daniaaccounting.com/wp-content/uploads/2022/09/Budget.jpg?" alt="Project logo"></a>
+ <img width=200px height=200px src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/f64696125858885.612205eaaf144.jpg" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Budget</h3>
@@ -8,8 +8,8 @@
 <div align="center">
 
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Timadey/Income-and-Expenditure/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Timadey/Income-and-Expenditure/pulls)
+[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Timadey/budget/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Timadey/budget/pulls)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 
 </div>
@@ -27,7 +27,7 @@
 - [🏁 Getting Started ](#-getting-started-)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
-- [🎈 Usage ](#-usage-)
+- [🎈 Live Usage ](#-live-usage-)
 - [🚀 Deployment ](#-deployment-)
 - [⛏️ Built Using ](#️-built-using-)
 - [Todo](#todo)
@@ -92,9 +92,12 @@ Using Docker container, you can run the following commands, assuming you are in 
 docker-compose build & docker-compose up
 ```
 
-## 🎈 Usage <a name="usage"></a>
+## 🎈 Live Usage <a name="usage"></a>
 
-Add notes about how to use the system.
+Budget is availabe live @[https://budgetim.onrender.com/](https://budgetim.onrender.com/). You can use this login details for test purposes only.
+```
+Email Address: `admin@budget.com`
+Password: `admin`
 
 ## 🚀 Deployment <a name = "deployment"></a>
 
