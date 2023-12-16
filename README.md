@@ -96,8 +96,8 @@ docker-compose build & docker-compose up
 
 Budget is availabe live @[https://budgetim.onrender.com/](https://budgetim.onrender.com/). You can use this login details for test purposes only.
 ```
-Email Address: `admin@budget.com`
-Password: `admin`
+Email Address: admin@budget.com
+Password: admin
 ```
 
 ## 🚀 Deployment <a name = "deployment"></a>
