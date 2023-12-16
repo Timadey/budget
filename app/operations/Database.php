@@ -24,10 +24,7 @@ class Database
         $dbName = getenv("MYSQL_DATABASE");
         
         try{
-            // $this->conn = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser,  $dbPassword);
-            // $this->conn = new PDO("mysql:host=localhost;dbname=budget", "root",  "password");
-            $this->conn = new PDO("mysql:host=db;dbname=budget", "user",  "password");
-
+            $this->conn = new PDO("mysql:host=$dbHost;dbname=$dbName", "$dbUser",  "$dbPassword");
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         catch(\PDOException $err){

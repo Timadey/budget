@@ -11,7 +11,6 @@ session_start();
 //  $_SESSION['email'] = 'tim@budget.com';
 //  $_SESSION['name'] = "Timothy";
 
-require_once __DIR__.'/../config/config.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
 use app\controllers\AuthController;
@@ -22,7 +21,6 @@ use app\operations\Database;
 use app\operations\Account;
 
 $dbs = new Database();
-// $dbs->dbConnect($DB_HOST,$DB_USER, $DB_PASSWORD, $DB_NAME);
 $user = new Account ($dbs);
 
 $router = new Router($dbs);

@@ -1,84 +1,127 @@
-# Income-and-Expenditure
-`Expense Tracker` `Track Income` `Track Expense` <br>
-
-## Description
-<p>
-<b>Budget</b> is a simple web app that provides a means for users to record their income and expenses. It helps you to keep track of your spending.
+<p align="center">
+  <a href="" rel="noopener">
+ <img width=200px height=200px src="https://www.daniaaccounting.com/wp-content/uploads/2022/09/Budget.jpg?" alt="Project logo"></a>
 </p>
 
-## Features
+<h3 align="center">Budget</h3>
 
-* Authentication
-* Create multiple accounts or books
-* Record Income
-* Record Expense
+<div align="center">
+
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
+[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Timadey/Income-and-Expenditure/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/Timadey/Income-and-Expenditure/pulls)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
+
+</div>
+
+---
+
+<p align="center"> <b>Budget</b> is a simple web app that provides a means for users to record their income and expenses. It helps you to keep track of your spending.
+    <br> 
+</p>
+
+## 📝 Table of Contents
+
+- [📝 Table of Contents](#-table-of-contents)
+- [🧐 About ](#-about-)
+- [🏁 Getting Started ](#-getting-started-)
+  - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
+- [🎈 Usage ](#-usage-)
+- [🚀 Deployment ](#-deployment-)
+- [⛏️ Built Using ](#️-built-using-)
+- [Todo](#todo)
+- [Contributions](#contributions)
+- [✍️ Authors ](#️-authors-)
+- [🎉 Acknowledgements ](#-acknowledgements-)
+
+## 🧐 About <a name = "about"></a>
+Budget was built with the aim of keeping track of your expenses and income in order to have an overview of your cash inflow. It is a simple web app with functionalities including a basic authentication module, book creation and deletion, income and expenses logging.
+
+![a budget screen](budgetscreen.png)
+
+## 🏁 Getting Started <a name = "getting_started"></a>
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
+
+### Prerequisites
+
+Make sure that you have the following installed on your system before running the project or deploying.
+
+```
+Docker
+PHP
+MySql
+Composer
+```
+
+### Installing
+
+Clone the repo
+```
+git clone git@github.com:Timadey/Income-and-Expenditure.git Income-and-Expenditure
+```
+In order to get the project up and running, you can either use the PHP local develpment server or run the project directly using Docker container.
+
+Using PHP local development server, 
+Ensure to create a mysql database and import the `budget.sql` file at the root directory into the database.
+Add environment variable containing the credentials of your mysql database. Replace `*` with the correct details
+```
+MYSQL_DB_HOST=****
+MYSQL_PASSWORD=****
+MYSQL_USER=****
+MYSQL_DATABASE=****
+
+```
+Run the following commands in your terminal. Assuming you are in the project root directory
+```
+cd public
+php -S localhost:8000
+```
+
+Your result should be like this
+
+```
+timothy@Timadey:~/projects/Income-and-Expenditure/public$ php -S localhost:5002
+[Sat Dec 16 00:20:42 2023] PHP 7.4.3 Development Server (http://localhost:5002) started
+
+```
+
+Using Docker container, you can run the following commands, assuming you are in the project directory.
+```
+docker-compose build & docker-compose up
+```
+
+## 🎈 Usage <a name="usage"></a>
+
+Add notes about how to use the system.
+
+## 🚀 Deployment <a name = "deployment"></a>
+
+In production, it is advisable to use Docker, ensure you set the proper mysql database credentials under `php service environment section` section in docker compose.
+Then follow the steps taken in dvelopment.
+
+## ⛏️ Built Using <a name = "built_using"></a>
+
+- [PHP](https://www.php.net/) - Database
+- [Bootstrap](https://www.getboostrap.com/) - Web Framework
+- [MYSQL](https://www.mysql.com/) - Database
+
+## Todo
+- Include data analytics
+- Allow users to add additional categories
+- Include trends and data visulization
+- Allow users to set budgets
+
+## Contributions
+Contributions are highly encouraged, please fork and make pull requests. Thank you.
+
+## ✍️ Authors <a name = "authors"></a>
+
+- [@Timadey](https://github.com/Timadey) - Software Engineer
+Feel free to reach out to me on [Linkedin](https://www.linkedin.com/in/timadey)
 
 
-## Techonologies used
+## 🎉 Acknowledgements <a name = "acknowledgement"></a>
 
-Languages and Tools
-* `Docker`
-* `PHP`
-* `MYSQL`
-* `HTML` 
-* `CSS`
-* `JS`
-Dependency Manager
-* `composer`
-
-## Deployment
-RUN `docker-compose build & docker-compose up`
-
-## Live Test
-The application is live at budgetim.onrender.com
-
-### Database Structure
-
-> Category Table must be filled with `Income` category and `Expense` category. <br>
-> Sub category table must be filled with any sub category of your choice
-> each sub category belonging to a catgory.
-> For example, sub categories `movies`, `food`, `entertainment` can belong to the `expense` category
-> on the other hand sub categories `salary`, `bonus`, `gift` can belong to the `income` catgeory.
-<hr>
-Below is the database structure, define `foreign constraint` where neccessary
-<table>
-    <thead>
-        <tr>
-            <th>Table</th>
-            <th>Columns</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>users</td>
-            <td>user_id, first_name, last_name, email, password, date_registered</td>
-        </tr>
-        <tr>
-            <td>books</td>
-            <td>book_id, user_id, book_name, book_desc, book_date, category_id</td>
-        </tr>
-        <tr>
-            <td>transactions</td>
-            <td>transaction_id, user_id, book_id, category_id, type, sub_category_id, transaction_amount, transaction_desc, transaction_date</td>
-        </tr>
-        <tr>
-            <td>category</td>
-            <td>category_id, category_name, category_desc</td>
-        </tr>
-        <tr>
-            <td>category</td>
-            <td>sub_category_id, category_id, sub_category_name</td>
-        </tr>
-    </tbody>
-</table>
-
-### Database configuration 
-The only configuration needed is in the [`config/config.php file`](config/config.php), open it and set your `Database Configurations`.
-
-### Ready made database
-A [`budget.sql file`](budget.sql) is availabe at the root of this repo.
- <!-- but it's outdated. If you're going to use it. <b>Ensure that you do the following after importing</b>
-
-* Delete the `category_id` column in `books` table
-* Rename the `type` column in `transactions` table to `category_id` or simply create a new `category_id` column and delete `type` -->
-<br>
+Special thanks to [@Don Jo](https://github.com/emmadonjo/) for the inspiration given for this project.
