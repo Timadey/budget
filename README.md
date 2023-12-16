@@ -98,6 +98,7 @@ Budget is availabe live @[https://budgetim.onrender.com/](https://budgetim.onren
 ```
 Email Address: `admin@budget.com`
 Password: `admin`
+```
 
 ## 🚀 Deployment <a name = "deployment"></a>
 
