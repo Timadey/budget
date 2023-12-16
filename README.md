@@ -59,7 +59,7 @@ Composer
 
 Clone the repo
 ```
-git clone git@github.com:Timadey/Income-and-Expenditure.git Income-and-Expenditure
+git clone git@github.com:Timadey/budget.git budget
 ```
 In order to get the project up and running, you can either use the PHP local develpment server or run the project directly using Docker container.
 
